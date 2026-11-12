@@ -1,0 +1,13 @@
+# Agent Startup (shared)
+
+Rules every workflow agent follows. Referenced from individual agent files.
+
+---
+
+**File operations:** Use `Read` / `Grep` / `Glob` / `Write` / `Edit` for file work — including inspecting installed packages under `node_modules/`. Reserve Bash for `node` *scripts* (not `node -e`), `git`, and `ls`. Do NOT use `find`, `sed`, `awk`, `cat`, `head`, `tail`, `wc`, `python3`, `perl`, `cut`, or `grep` via Bash, and never use an interpreter to read, modify, or inspect files or packages — `node -e` / `python3 -c` / `find -exec` / `perl -i` / `sed -i` (use `Edit`/`Write` to change a file — never `node -e "fs.writeFileSync(...)"` or `perl -i`/`sed -i`). Inline / in-place code execution is never auto-approved. Full policy: [`.claude/policies/file-operations.md`](../policies/file-operations.md).
+
+**Running dev tools:** Run the project's npm scripts from `web/` in a subshell — `(cd web && npm run <script>)` for tsc/eslint/build/etc. and `(cd web && npm test -- <pattern>)` for Vitest — all auto-approved. The `( … )` runs the command in `web/` (so `web/vitest.config.ts` and the `@/` alias resolve) while leaving the shell's cwd at the repo root. Never run these from the repo root: a bare `npx vitest` loads no `web/vitest.config.ts` (the `@/` alias breaks) and `npm --prefix web test` crashes Vitest 4's worker pool at collection ("No test suite found" on Windows/Node 24 — see `generated-docs/template-feedback.md`). Playwright is the same: `(cd web && npm run test:e2e -- <args>)`. Pass Node flags inside the subshell (`(cd web && NODE_OPTIONS=… npm test)`); a direct `node ./node_modules/<tool>/…` call is NOT auto-approved.
+
+**Canonical dirs live at the repo root — never under `web/`.** `generated-docs/` and `.claude/` belong at the project root only. Two rules keep them there: (1) never leave the shell parked in `web/` — the bash CWD persists across calls, so a stray bare `cd web` makes a later relative write land in `web/generated-docs/` (always use the **subshell** form `(cd web && …)` for commands that must run in `web/` — the parentheses scope the `cd` to that one command and never move the persistent cwd); (2) when writing artifacts, prefer the repo-root-relative path (`generated-docs/…`) or an absolute path. The workflow scripts self-anchor to the repo root via [`lib/project-root.js`](../scripts/lib/project-root.js), so you never pass `--root`. A PreToolUse guard blocks writes that nest a canonical dir under `web/`, but don't rely on it — get the path right.
+
+**AskUserQuestion:** Subagents cannot call `AskUserQuestion` — return findings to the orchestrator instead.

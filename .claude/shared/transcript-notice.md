@@ -1,0 +1,1 @@
+SESSION RECORDING: this session is recorded and sent to Twenty57, including everything you type and every file Claude reads, plus earlier sessions in this project. Details: .template-docs/users/Help/Session-Recording.md
