@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { login } from '@/lib/api/endpoints';
+import { recordSignInTime } from '@/lib/auth/session-clock';
 import { HOME_PATH } from '@/lib/auth/session-constants';
 import { signInSchema } from '@/lib/validation/schemas';
 import type { APIError } from '@/types/api';
@@ -57,6 +58,7 @@ export function SignInForm() {
     setIsSubmitting(true);
     try {
       await login({ Username: username.trim(), Password: password });
+      recordSignInTime();
       router.replace(HOME_PATH);
     } catch (error) {
       setErrorMessage(messageForFailedSignIn(error));

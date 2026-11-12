@@ -15,7 +15,9 @@
       "In dark mode, error text uses the prototype's lighter red (#f87171) because the design system's dark error red is too faint to read as text on the dark card; confirm it's OK.",
       "The backend's session cookie must be named \"session\" with Path=/; check that a real sign-in lands you on Transactions instead of bouncing back to Sign in.",
       "The sign-in username is sent with surrounding spaces trimmed; the password is sent exactly as typed.",
-      "When sign-out fails, the error notification reads \"Sign-out failed\" with \"You are still signed in. Please try signing out again.\" The brief gives no wording; confirm it's what you want."
+      "When sign-out fails, the error notification reads \"Sign-out failed\" with \"You are still signed in. Please try signing out again.\" The brief gives no wording; confirm it's what you want.",
+      "The timeout warning wording (\"You're about to be signed out\", with 60 seconds to stay signed in) is not in the prototype; confirm it's OK.",
+      "If the server rejects the sign-out when a timeout ends your session, the app still sends you to Sign in, so the server session might stay valid until it expires there. The 15-minute and 8-hour limits are enforced only in the browser; confirm the backend's session expires on the same schedule."
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
@@ -27,7 +29,7 @@
     "1": { "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:25:00.000Z", "completedAt": "2026-11-12T08:50:00.000Z" },
     "2": { "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:52:00.000Z", "completedAt": "2026-11-12T09:05:00.000Z" },
     "3": { "storyId": "f5c28803-3c5b-4e17-9794-e229892e1183", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T09:07:00.000Z", "completedAt": "2026-11-12T09:15:00.000Z" },
-    "4": { "storyId": "4d983e0a-5a2e-4906-854c-9d0509468a80", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null }
+    "4": { "storyId": "4d983e0a-5a2e-4906-854c-9d0509468a80", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T09:17:00.000Z", "completedAt": "2026-11-12T09:30:00.000Z" }
   },
   "halt": null,
   "lastUpdated": "2026-11-12T08:50:00.000Z"

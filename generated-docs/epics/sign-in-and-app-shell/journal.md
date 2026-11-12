@@ -17,3 +17,9 @@
 
 - The header now has a working Sign out button. It reads "Signing out…" and can't be pressed again until the sign-out finishes, then you're back on Sign in with empty fields. Pressing Back afterwards re-checks your session and returns you to Sign in.
 - If sign-out fails, an error notification says "Sign-out failed" and stays until you close it. The button becomes available again so you can retry.
+
+## Story 4: Idle and 8-hour session timeouts
+
+- After 14 minutes without activity, a warning now says you're about to be signed out and offers "Stay signed in" or "Sign out". If you don't answer within 60 seconds, you're signed out and returned to Sign in.
+- You're now signed out 8 hours after signing in, even if you're active. The app keeps only the time you signed in on your computer, never your session key.
+- The warning opens with "Stay signed in" already focused. Tab stays inside the warning and Enter answers it. Pressing Escape or clicking outside doesn't close it.

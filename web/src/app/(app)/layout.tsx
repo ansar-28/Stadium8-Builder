@@ -4,6 +4,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { AppHeader } from '@/components/layout/AppHeader';
+import { SessionTimeout } from '@/components/layout/SessionTimeout';
 import { SignOutButton } from '@/components/layout/SignOutButton';
 import { SessionProvider } from '@/contexts/SessionContext';
 import { getUserInfo } from '@/lib/api/endpoints';
@@ -66,6 +67,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <main id="main-content" className="mx-auto w-full max-w-[1280px] p-6">
         {children}
       </main>
+      <SessionTimeout />
     </SessionProvider>
   );
 }

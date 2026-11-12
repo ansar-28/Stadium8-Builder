@@ -1,12 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/contexts/ToastContext';
-import { logout } from '@/lib/api/endpoints';
-import { SIGN_IN_PATH } from '@/lib/auth/session-constants';
+import { useSignOut } from '@/hooks/useSignOut';
 
 const SIGN_OUT_FAILED_TITLE = 'Sign-out failed';
 const SIGN_OUT_FAILED_MESSAGE =
@@ -15,22 +11,15 @@ const SIGN_OUT_FAILED_MESSAGE =
 /**
  * Header control that ends the session. It waits for the logout response before
  * leaving the screen; Sign in then mounts fresh, so its fields start empty.
- * A pushed (not replaced) history entry keeps Back pointing at the protected
- * screen, whose layout re-checks the session and sends the user to Sign in.
  */
 export function SignOutButton() {
-  const router = useRouter();
   const { showToast } = useToast();
-  const [isSigningOut, setIsSigningOut] = useState(false);
+  const { signOut, isSigningOut } = useSignOut();
 
   async function handleSignOut() {
     if (isSigningOut) return;
-    setIsSigningOut(true);
-    try {
-      await logout();
-      router.push(SIGN_IN_PATH);
-    } catch {
-      setIsSigningOut(false);
+    const outcome = await signOut();
+    if (outcome === 'failed') {
       showToast({
         variant: 'error',
         title: SIGN_OUT_FAILED_TITLE,
