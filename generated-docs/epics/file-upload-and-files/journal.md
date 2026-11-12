@@ -5,3 +5,6 @@
 - The upload screen now has a working file chooser. It checks the file is a .csv with exactly the seven-column header (reading just the start of the file, so a 1,000-row file doesn't freeze the screen), then sends the raw file to the backend. The outcome appears in a green or red banner, and any rejection also raises a "was rejected at upload" notification.
 - The success message leaves out the transaction count because the upload response doesn't include one.
 
+## Story 3: Upload screen for users without the File Importer role
+- On the upload screen, users without the File Importer role now see a banner telling them they need that permission and should ask their administrator, with a link back to Files. The file chooser and Upload file button are hidden from them.
+

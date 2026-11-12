@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { FileImporterOnly } from '@/components/files/FileImporterOnly';
 import { UploadTransactionFile } from '@/components/files/UploadTransactionFile';
 import { PageHeader } from '@/components/layout/PageHeader';
 
@@ -14,7 +15,9 @@ export default function UploadTransactionFilePage() {
         title="Upload transaction file"
         description="Only the seven-column .csv layout is accepted: Reference, TransactionDate, AccountNumber, Description, Amount, TransactionType, Currency."
       />
-      <UploadTransactionFile />
+      <FileImporterOnly>
+        <UploadTransactionFile />
+      </FileImporterOnly>
     </div>
   );
 }

@@ -40,12 +40,12 @@
     },
     "3": {
       "storyId": "09ff3c54-af18-4e0f-b8f8-b33480291254",
-      "status": "in-progress",
+      "status": "complete",
       "e2eStatus": "deferred",
       "startedAt": "2026-11-12T12:33:24.551Z",
-      "completedAt": null
+      "completedAt": "2026-11-12T12:35:22.664Z"
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T12:33:24.551Z"
+  "lastUpdated": "2026-11-12T12:35:22.664Z"
 }
