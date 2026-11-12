@@ -199,7 +199,7 @@ describe('Epic file-upload-and-files, Story 2: Upload a transaction file', () =>
     expect(
       await screen.findByText('Choose a .csv file to upload.'),
     ).toBeInTheDocument();
-    expect(mockApiClient).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText(/^Selected:/)).not.toBeInTheDocument();
   });
 
   // AC-4
