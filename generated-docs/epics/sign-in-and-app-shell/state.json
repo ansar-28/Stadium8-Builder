@@ -6,15 +6,24 @@
     "name": "Sign-in and app frame",
     "createdAt": "2026-11-12T07:52:25.601Z",
     "dependsOn": [],
-    "introducesSharedSurface": false,
-    "unverifiedAssumptions": [],
+    "introducesSharedSurface": true,
+    "unverifiedAssumptions": [
+      "Verify your role chips and the Upload item: the app expects the backend to name roles exactly \"File Importer\" and \"Approver\" (the spec's example shows \"Viewer\"). If the names differ, you'll see unexpected chips and File Importers won't see Upload.",
+      "Verify your name in the header: the app shows your first name followed by your last name from your account details. If the backend leaves those empty or keeps the name elsewhere, the header will show a blank or wrong name.",
+      "Verify the session timeouts match the server: the app signs you out after 15 minutes idle and 8 hours total, but the server's own session may expire sooner. If it does, you'll be bounced to Sign in without the warning appearing first."
+    ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "PLAN",
-  "stories": {},
+  "phase": "BUILD",
+  "stories": {
+    "1": { "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
+    "2": { "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
+    "3": { "storyId": "f5c28803-3c5b-4e17-9794-e229892e1183", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
+    "4": { "storyId": "4d983e0a-5a2e-4906-854c-9d0509468a80", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null }
+  },
   "halt": null,
-  "lastUpdated": "2026-11-12T07:52:25.601Z"
+  "lastUpdated": "2026-11-12T08:10:00.000Z"
 }
