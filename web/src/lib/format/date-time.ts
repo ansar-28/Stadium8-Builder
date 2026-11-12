@@ -13,6 +13,6 @@ export function formatDateTime(serverDateTime: string): string {
 
 /** Sort key for a server date-time; unreadable values sort as the oldest. */
 export function dateTimeSortValue(serverDateTime: string): number {
-  const timestamp = Date.parse(serverDateTime);
+  const timestamp = Date.parse(serverDateTime.trim().replace(' ', 'T'));
   return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
 }

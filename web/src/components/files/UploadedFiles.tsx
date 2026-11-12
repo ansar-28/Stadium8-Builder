@@ -51,6 +51,11 @@ function newestFirst(files: readonly FileLog[]): FileLog[] {
   );
 }
 
+/** A file can only be requested from storage when the server gave it an id. */
+function isDownloadable(file: FileLog): boolean {
+  return typeof file.Id === 'number';
+}
+
 function UploadAFileLink() {
   return (
     <Button asChild className="min-h-10 font-semibold hover:bg-primary-hover">
@@ -147,11 +152,13 @@ export function UploadedFiles() {
 
   function retryFileListLoad() {
     setFileListLoad({ status: 'loading' });
+    setPageNumber(1);
     setLoadAttempt((attempt) => attempt + 1);
   }
 
   const downloadUploadedFile = useCallback(
     async function download(file: FileLog) {
+      if (!isDownloadable(file)) return;
       const fileName = file.CurrentFileName ?? `file-${file.Id}`;
       try {
         const fileContent = await downloadFile(String(file.Id));
@@ -232,6 +239,7 @@ export function UploadedFiles() {
                           variant="outline"
                           className="min-h-10"
                           aria-label={`Download ${fileName}`}
+                          disabled={!isDownloadable(file)}
                           onClick={() => void downloadUploadedFile(file)}
                         >
                           Download

@@ -1,6 +1,12 @@
 'use client';
 
-import { useId, useState, type ChangeEvent, type FormEvent } from 'react';
+import {
+  useId,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from 'react';
 import { CircleAlert, CircleCheck } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -68,6 +74,7 @@ export function UploadTransactionFile() {
   const { showToast } = useToast();
   const fileInputId = useId();
   const noFileMessageId = useId();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [chosenFile, setChosenFile] = useState<File | null>(null);
   const [isNoFileMessageShown, setIsNoFileMessageShown] = useState(false);
@@ -78,6 +85,13 @@ export function UploadTransactionFile() {
     setChosenFile(event.target.files?.[0] ?? null);
     setIsNoFileMessageShown(false);
     setOutcome(null);
+  }
+
+  function clearChosenFile() {
+    setChosenFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }
 
   function reportRejection(fileName: string, rejection: UploadOutcome) {
@@ -110,6 +124,7 @@ export function UploadTransactionFile() {
         fileName,
         chosenFile,
       );
+      clearChosenFile();
       setOutcome({ status: 'accepted', message: acceptedMessage(fileName) });
     } catch (error) {
       reportRejection(fileName, {
@@ -133,6 +148,7 @@ export function UploadTransactionFile() {
           <div className="flex flex-col gap-2">
             <Label htmlFor={fileInputId}>Choose a .csv file</Label>
             <Input
+              ref={fileInputRef}
               id={fileInputId}
               type="file"
               accept=".csv,text/csv"

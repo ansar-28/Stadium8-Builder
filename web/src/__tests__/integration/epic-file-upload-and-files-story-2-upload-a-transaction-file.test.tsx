@@ -179,6 +179,29 @@ describe('Epic file-upload-and-files, Story 2: Upload a transaction file', () =>
     expect(textFileBanner).not.toHaveTextContent(/uploaded successfully/i);
   });
 
+  // AC-3
+  it('clears the chosen file after a successful upload so the same file is not sent twice', async () => {
+    const user = userEvent.setup();
+    renderUploadPage();
+
+    const fileName = 'transactions_2026-04-15.csv';
+    await user.upload(
+      screen.getByLabelText(FILE_INPUT_LABEL),
+      csvFile(fileName, SEVEN_COLUMN_HEADER),
+    );
+    await user.click(screen.getByRole('button', { name: UPLOAD_BUTTON_NAME }));
+
+    await findOutcomeBanner(`${fileName} was uploaded.`);
+    expect(screen.queryByText(/^Selected:/)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: UPLOAD_BUTTON_NAME }));
+
+    expect(
+      await screen.findByText('Choose a .csv file to upload.'),
+    ).toBeInTheDocument();
+    expect(mockApiClient).toHaveBeenCalledTimes(1);
+  });
+
   // AC-4
   // Data-contract: full chain verified during manual checklist
   it('shows the server’s own message and the rejected-at-upload notification when the server fails the upload', async () => {

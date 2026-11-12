@@ -216,6 +216,24 @@ describe('Epic file-upload-and-files, Story 1: Uploaded files list with download
     ).toBeInTheDocument();
   });
 
+  // AC-4
+  it('does not offer a download for a listed file the server gave no id', async () => {
+    respondToApiCalls(async (endpoint) => {
+      if (endpoint.includes(FILE_LOGS_PATH)) {
+        return createFileLogList([createFileLog({ Id: undefined })]);
+      }
+      throw new Error(`Unexpected API call: ${endpoint}`);
+    });
+
+    renderFilesPage(APPROVER_ROLE_NAME);
+
+    expect(
+      await screen.findByRole('button', {
+        name: `Download ${DOWNLOADED_FILE_NAME}`,
+      }),
+    ).toBeDisabled();
+  });
+
   // AC-5
   it('says "No files yet" when empty and offers "Upload a file" only to File Importers', async () => {
     respondToApiCalls(async (endpoint) => {
