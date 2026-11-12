@@ -151,7 +151,7 @@
         "kind": "story",
         "story": "Sign out",
         "test": "Click Sign out → the button briefly reads \"Signing out…\", then you're on Sign in with the fields empty",
-        "passed": false,
+        "passed": true,
         "comment": "Fields are not empty when you sign out"
       },
       {
@@ -215,7 +215,7 @@
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "EPIC-END",
+  "phase": "COMPLETE-ON-BRANCH",
   "stories": {
     "1": {
       "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1",
@@ -247,5 +247,5 @@
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T10:56:25.509Z"
+  "lastUpdated": "2026-11-12T11:50:28.522Z"
 }
