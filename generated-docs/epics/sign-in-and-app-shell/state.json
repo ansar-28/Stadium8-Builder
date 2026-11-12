@@ -24,7 +24,7 @@
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "BUILD",
+  "phase": "EPIC-END",
   "stories": {
     "1": { "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:25:00.000Z", "completedAt": "2026-11-12T08:50:00.000Z" },
     "2": { "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:52:00.000Z", "completedAt": "2026-11-12T09:05:00.000Z" },

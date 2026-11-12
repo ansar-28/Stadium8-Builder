@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={openSans.variable} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script>{THEME_INIT_SCRIPT}</script>
       </head>
       <body className="antialiased">
         <ToastProvider>
