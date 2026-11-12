@@ -13,7 +13,9 @@
       "Verify an uploaded file is treated as a transaction file: the app sends one fixed file setting with every upload, and the brief does not yet say which setting identifies transaction files. If the wrong setting is used, the upload may be refused or the file may never show its transactions.",
       "Verify the Files list shows only files that uploaded successfully: the app asks the backend for active files only and assumes that means successfully uploaded. If the backend also returns failed or in-progress files that way, you will see files in the list that should not be there.",
       "Verify the newest file is at the top: the app assumes each file's upload timestamp is a real date-and-time it can sort by. If the backend sends that value in a different format, the list order or the timestamps shown may be wrong.",
-      "Upload timestamps are shown exactly as the server records them, without converting time zones. Check that the times on Files match the times you uploaded."
+      "Upload timestamps are shown exactly as the server records them, without converting time zones. Check that the times on Files match the times you uploaded.",
+      "Uploads are sent with file setting Id 1 / name Transaction Import. Please confirm these are the backend real values for transaction files (they can be checked with GET /v1/file-settings).",
+      "When the backend refuses an upload, the red banner shows the file name could not be uploaded followed by the server own message. Please confirm this reads well with a real backend rejection."
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
@@ -31,19 +33,19 @@
     },
     "2": {
       "storyId": "b3b8bf0a-cd34-4edf-b4fc-42916c4e7509",
-      "status": "pending",
+      "status": "complete",
       "e2eStatus": "deferred",
-      "startedAt": null,
-      "completedAt": null
+      "startedAt": "2026-11-12T12:30:08.034Z",
+      "completedAt": "2026-11-12T12:33:24.551Z"
     },
     "3": {
       "storyId": "09ff3c54-af18-4e0f-b8f8-b33480291254",
-      "status": "pending",
+      "status": "in-progress",
       "e2eStatus": "deferred",
-      "startedAt": null,
+      "startedAt": "2026-11-12T12:33:24.551Z",
       "completedAt": null
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T12:29:01.343Z"
+  "lastUpdated": "2026-11-12T12:33:24.551Z"
 }

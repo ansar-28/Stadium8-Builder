@@ -1,4 +1,10 @@
+import {
+  TRANSACTION_FILE_SETTING_ID,
+  TRANSACTION_FILE_SETTING_NAME,
+} from '../../lib/files/transaction-file-setting';
 import type { FileLog, FileLogList } from '../../types/api-generated';
+
+export { TRANSACTION_FILE_SETTING_ID, TRANSACTION_FILE_SETTING_NAME };
 
 /**
  * Uploaded-file entries returned by `GET /v1/file-logs`
@@ -7,9 +13,6 @@ import type { FileLog, FileLogList } from '../../types/api-generated';
  * The spec does not document which `CurrentStatus` values mean "uploaded
  * successfully"; `Completed` is an assumed canonical value until confirmed.
  */
-
-export const TRANSACTION_FILE_SETTING_ID = 1;
-export const TRANSACTION_FILE_SETTING_NAME = 'Transaction Import';
 
 export function createFileLog(overrides: Partial<FileLog> = {}): FileLog {
   return {
