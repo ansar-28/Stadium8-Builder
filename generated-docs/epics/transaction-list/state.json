@@ -15,14 +15,15 @@
       "Verify Days pending: the app counts from the upload date of the file each transaction came from. If the backend's file date is the processing date rather than the upload date, or a transaction's file isn't in the active file list, days pending may be off or show \"—\" for a pending transaction.",
       "Check the failed-load wording: a failed load shows a card titled \"Transactions couldn't be loaded\" with the server's message and a Retry button. Confirm it reads well.",
       "Check the no-match filter chip wording: chips show the field label and value (e.g. \"Account number: 1001-2034\", \"Amount min: 20000\"); the design used shorter wording. Is that OK?",
-      "Check sorting by Days pending: Approved and Rejected rows (shown as \"—\") sit at the bottom in both directions. Is that the order you expect?"
+      "Check sorting by Days pending: Approved and Rejected rows (shown as \"—\") sit at the bottom in both directions. Is that the order you expect?",
+      "Check the quiet fallback: if file details fail to load, pending transactions show \"—\" for days pending with no notice. Is that acceptable?"
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "BUILD",
+  "phase": "EPIC-END",
   "stories": {
     "1": {
       "storyId": "01f4e7d8-3405-42ab-a84c-4b649a9e680d",

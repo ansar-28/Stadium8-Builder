@@ -331,14 +331,20 @@ export function TransactionList() {
       if (isCurrentLoad) setIsStillLoading(true);
     }, STILL_LOADING_DELAY_MS);
 
-    Promise.all([getTransactions(), getFileLogs('Yes')])
-      .then(([transactionList, fileLogList]) => {
+    // File logs only feed days pending: if they fail, the list still loads and
+    // pending rows show "—" rather than the whole page failing.
+    const fileLogsOrNone = getFileLogs('Yes')
+      .then((fileLogList) => fileLogList.FileLog ?? [])
+      .catch(() => []);
+
+    Promise.all([getTransactions(), fileLogsOrNone])
+      .then(([transactionList, fileLogs]) => {
         if (!isCurrentLoad) return;
         setListLoad({
           status: 'loaded',
           rows: toTransactionRows(
             transactionList.Transactions ?? [],
-            fileLogList.FileLog ?? [],
+            fileLogs,
             Date.now(),
           ),
         });
@@ -365,13 +371,13 @@ export function TransactionList() {
   }
 
   const loadedRows = listLoad.status === 'loaded' ? listLoad.rows : null;
-  const sortedRows = useMemo(
-    () => (loadedRows ? sortRows(loadedRows, sort) : []),
-    [loadedRows, sort],
+  const matchingRows = useMemo(
+    () => (loadedRows ? filterRows(loadedRows, filters) : []),
+    [loadedRows, filters],
   );
   const filteredRows = useMemo(
-    () => filterRows(sortedRows, filters),
-    [sortedRows, filters],
+    () => sortRows(matchingRows, sort),
+    [matchingRows, sort],
   );
   const currencyOptions = useMemo(
     () => (loadedRows ? currencyOptionsOf(loadedRows) : []),

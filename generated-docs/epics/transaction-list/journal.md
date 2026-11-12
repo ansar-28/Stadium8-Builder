@@ -9,3 +9,6 @@
 
 ## Story 3 — Page through transactions
 - Added page controls under the transactions list: Rows per page (5, 10, 20 or 50, starting at 20), Previous and Next buttons, and a "Page n of pages" label. They stay visible even when everything fits on one page. Changing a filter, the sort or the page size takes you back to page 1.
+
+## Epic-end review
+- If the file details can't be loaded, the transaction list now still appears. Pending transactions show "—" for days pending instead of the whole page failing to load.

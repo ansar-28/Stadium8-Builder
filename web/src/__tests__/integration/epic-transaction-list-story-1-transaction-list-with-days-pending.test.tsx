@@ -158,6 +158,32 @@ describe('Epic transaction-list, Story 1: Transaction list with days pending', (
     ).toBeInTheDocument();
   });
 
+  // AC-2 (degraded): file logs only feed days pending
+  it('still shows the list with "—" days pending when the file details fail to load', async () => {
+    const fileLogsFailure: APIError = {
+      message: 'The file service is temporarily unavailable.',
+      statusCode: 503,
+    };
+    respondWith({
+      transactions: () =>
+        Promise.resolve(createTransactionList(createSampleTransactions())),
+      fileLogs: () => Promise.reject(fileLogsFailure),
+    });
+
+    renderTransactionsPage(FILE_IMPORTER_ROLE_NAME);
+
+    const pendingRow = await screen.findByRole('row', { name: /TXN-00001/ });
+    expect(
+      within(pendingRow).getByRole('cell', { name: '—' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("Transactions couldn't be loaded"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Retry' }),
+    ).not.toBeInTheDocument();
+  });
+
   // AC-3
   it('shows a busy list placeholder while loading and a still-loading message after three seconds', async () => {
     const neverSettles = () => new Promise<never>(() => undefined);
