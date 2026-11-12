@@ -33,7 +33,7 @@
 | `UploadTransactionFile` | `web/src/components/files/UploadTransactionFile.tsx` | Upload card: labelled .csv chooser, "Selected: <name>", "Upload file", layout check then `uploadFile` as octet-stream; `role="status"` outcome banner (green / red border) + error toast "The file <name> was rejected at upload." |
 | `FileImporterOnly` | `web/src/components/files/FileImporterOnly.tsx` | Renders children only for File Importers; others get a `role="status"` banner "You need the File Importer permission…" with a "Files" link |
 | `isSevenColumnTransactionFile`, `TRANSACTION_FILE_HEADER`, `TRANSACTION_FILE_LAYOUT_MESSAGE` | `web/src/lib/validation/transaction-file.ts` | .csv extension + exact seven-column header check, reading only the file's first 64 KB (non-blocking) |
-| `TRANSACTION_FILE_SETTING_ID`, `TRANSACTION_FILE_SETTING_NAME` | `web/src/lib/files/transaction-file-setting.ts` | File setting sent with every upload (assumed values; mocks re-export them) |
+| `TRANSACTION_FILE_SETTING_ID`, `TRANSACTION_FILE_SETTING_NAME` | `web/src/lib/files/transaction-file-setting.ts` | File setting sent with every upload (Id 1 / `Transaction-Import`, confirmed live; mocks re-export them) |
 | `Input`, `Label` (Shadcn) | `web/src/components/ui/input.tsx`, `web/src/components/ui/label.tsx` | Text/file input and its label (`htmlFor`) |
 | `Switch` (Shadcn) | `web/src/components/ui/switch.tsx` | Switch primitive; extra `thumbClassName` prop for restyling the thumb; resize with `data-[size=default]:h-*` / `w-*` (plain `h-*` / `w-*` lose to the size variant) |
 
@@ -45,4 +45,6 @@
 - Controls on the brand header use a `brand-foreground` focus outline (the `ring` token lacks contrast on brand blue).
 
 ## Cross-epic debt
-- None.
+- The API spec does not document that the backend renames uploaded files to `<yyyymmdd>_Transactions[_n].csv`; the Files list shows the renamed name, not the uploaded one.
+- `FileLog.CurrentStatus` values seen live: `Suspended` (active, stopped at `FixData`) and `Faulted` (inactive, `LogFault`). The Files list deliberately shows every `IsActive=Yes` file regardless of status (user decision).
+- The live transaction file setting is Id `1` / `Transaction-Import` (hyphen).

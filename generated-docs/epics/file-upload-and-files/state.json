@@ -17,35 +17,99 @@
       "Uploads are sent with file setting Id 1 / name Transaction Import. Please confirm these are the backend real values for transaction files (they can be checked with GET /v1/file-settings).",
       "When the backend refuses an upload, the red banner shows the file name could not be uploaded followed by the server own message. Please confirm this reads well with a real backend rejection."
     ],
-    "manualTestResults": [],
+    "manualTestResults": [
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "file-setting",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "only-successful",
+        "passed": false,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "newest-top",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "timestamps",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "setting-values",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "rejection-banner",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Upload a transaction file",
+        "test": "all",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Uploaded files list with download",
+        "test": "upload-appears",
+        "passed": false,
+        "comment": "Uploaded file is not there"
+      },
+      {
+        "kind": "story",
+        "story": "Uploaded files list with download",
+        "test": "paging",
+        "passed": false,
+        "comment": "Can't upload files, therefore not enough files present for test case"
+      }
+    ],
     "parkedDesignUpdate": false,
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "EPIC-END",
+  "phase": "BUILD",
   "stories": {
     "1": {
       "storyId": "0e898163-27c3-42da-bf09-40e754bb57b1",
       "status": "complete",
-      "e2eStatus": "deferred",
+      "e2eStatus": "passed-after-fix",
       "startedAt": "2026-11-12T12:24:02.626Z",
       "completedAt": "2026-11-12T12:29:01.343Z"
     },
     "2": {
       "storyId": "b3b8bf0a-cd34-4edf-b4fc-42916c4e7509",
       "status": "complete",
-      "e2eStatus": "deferred",
+      "e2eStatus": "passed-after-fix",
       "startedAt": "2026-11-12T12:30:08.034Z",
       "completedAt": "2026-11-12T12:33:24.551Z"
     },
     "3": {
       "storyId": "09ff3c54-af18-4e0f-b8f8-b33480291254",
       "status": "complete",
-      "e2eStatus": "deferred",
+      "e2eStatus": "passed",
       "startedAt": "2026-11-12T12:33:24.551Z",
       "completedAt": "2026-11-12T12:35:22.664Z"
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T12:35:54.738Z"
+  "lastUpdated": "2026-11-12T13:58:27.127Z"
 }

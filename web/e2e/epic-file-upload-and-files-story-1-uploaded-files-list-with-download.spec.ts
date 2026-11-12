@@ -55,7 +55,7 @@ const WCAG_22_AA_TAGS = [
 ];
 const FILE_LOGS_URL = /\/transactions-api\/v1\/file-logs(\?|$)/;
 const DOWNLOAD_URL = /\/transactions-api\/v1\/files\/download(\?|$)/;
-const DOWNLOADED_FILE_NAME = 'transactions_2026-04-15.csv';
+const DOWNLOADED_FILE_NAME = '20261112_Transactions.csv';
 const DOWNLOADED_FILE_CONTENT =
   'Reference,TransactionDate,AccountNumber,Description,Amount,TransactionType,Currency\n' +
   'TXN-20260415-0001,2026/04/15 08:12,1234567890,Supplier payment,1500.00,D,ZAR\n';
@@ -124,13 +124,13 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await expect(page.getByText('Showing 20 of 25 files')).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-025.csv',
+        name: '20261112_Transactions_25.csv',
         exact: true,
       }),
     ).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-005.csv',
+        name: '20261112_Transactions_5.csv',
         exact: true,
       }),
     ).toHaveCount(0);
@@ -147,13 +147,13 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await expect(page.getByText('Showing 5 of 25 files')).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-005.csv',
+        name: '20261112_Transactions_5.csv',
         exact: true,
       }),
     ).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-025.csv',
+        name: '20261112_Transactions_25.csv',
         exact: true,
       }),
     ).toHaveCount(0);
@@ -171,13 +171,13 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await expect(page.getByText('Showing 5 of 25 files')).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-025.csv',
+        name: '20261112_Transactions_25.csv',
         exact: true,
       }),
     ).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-020.csv',
+        name: '20261112_Transactions_20.csv',
         exact: true,
       }),
     ).toHaveCount(0);
@@ -185,13 +185,13 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-020.csv',
+        name: '20261112_Transactions_20.csv',
         exact: true,
       }),
     ).toBeVisible();
     await expect(
       table.getByRole('cell', {
-        name: 'transactions_batch-025.csv',
+        name: '20261112_Transactions_25.csv',
         exact: true,
       }),
     ).toHaveCount(0);

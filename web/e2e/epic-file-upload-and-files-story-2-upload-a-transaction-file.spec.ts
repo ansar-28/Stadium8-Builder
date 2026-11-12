@@ -16,7 +16,8 @@
  *     FileSettingName and FileName query inputs and the raw .csv bytes as an
  *     application/octet-stream body — page.route() cannot intercept a Server Action.
  *   - The Files screen reads GET <proxy>/transactions-api/v1/file-logs from the browser.
- *     The mock serves the list with the uploaded file on top once the upload was received.
+ *     The mock serves the list with the uploaded file on top once the upload was received,
+ *     under the backend's renamed form (<yyyymmdd>_Transactions_<n>.csv), not the uploaded name.
  *   - The signed-in state is a `session` cookie (mock value, added to the browser context
  *     before navigating); the frontend never reads its value.
  * - If the implementation diverges from these assumptions, this spec will not pass.
@@ -75,6 +76,14 @@ function sevenColumnCsv(fileName: string, transactionCount: number): CsvUpload {
   };
 }
 
+/**
+ * The name the backend gives the nth upload of the day: the mocked list already holds
+ * today's `20261112_Transactions.csv`, so repeats get `_1`, `_2`, ...
+ */
+function renamedUploadFileName(uploadIndex: number): string {
+  return `20261112_Transactions_${uploadIndex + 1}.csv`;
+}
+
 async function startMockSession(
   page: Page,
   context: BrowserContext,
@@ -123,16 +132,16 @@ async function mockUploadAndFileLogs(page: Page): Promise<void> {
   await page.route(
     (url) => url.pathname.endsWith('/v1/file-logs'),
     (route) => {
-      const uploadedFileNames = uploadRequests.map(
-        (request) => new URL(request.url()).searchParams.get('FileName') ?? '',
-      );
-      const uploadedFiles = uploadedFileNames.reverse().map((fileName, index) =>
-        createFileLog({
-          Id: 100 + uploadedFileNames.length - index,
-          ProcessDate: '2026-11-12T09:30:00',
-          CurrentFileName: fileName,
-        }),
-      );
+      // The backend renames each upload to <yyyymmdd>_Transactions_<n>.csv.
+      const uploadedFiles = uploadRequests
+        .map((_, uploadIndex) =>
+          createFileLog({
+            Id: 101 + uploadIndex,
+            ProcessDate: `2026-11-12 14:${String(30 + uploadIndex).padStart(2, '0')}:00`,
+            CurrentFileName: renamedUploadFileName(uploadIndex),
+          }),
+        )
+        .reverse();
       return route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -209,7 +218,7 @@ test.describe('Epic file-upload-and-files, Story 2: Upload a transaction file', 
       .getByRole('row')
       .filter({ has: page.getByRole('cell') })
       .first();
-    await expect(firstFileRow).toContainText(validFile.name);
+    await expect(firstFileRow).toContainText(renamedUploadFileName(0));
   });
 
   // AC-5

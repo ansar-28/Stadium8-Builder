@@ -18,3 +18,6 @@
 - The uploaded-files paging test looked for a file name loosely and also matched the row's Download button. The test now looks for the exact name; the screen was already correct.
 - Browser tests ran in Microsoft Edge because the one-time Chromium download was stuck.
 
+## Manual test: contract correction
+- The live backend calls the transaction file setting "Transaction-Import" (with a hyphen), so uploads now send that name. The test data now looks like what the backend really returns, including the renamed "<date>_Transactions.csv" file names.
+- Decision: Files lists every active file whatever its status (including "Suspended"); nothing is hidden by status.

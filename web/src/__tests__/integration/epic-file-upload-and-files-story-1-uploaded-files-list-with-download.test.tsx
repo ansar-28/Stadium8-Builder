@@ -72,7 +72,7 @@ const mockApiClient = apiClient as unknown as Mock<EndpointResponder>;
 
 const FILE_LOGS_PATH = '/v1/file-logs';
 const DOWNLOAD_PATH = '/v1/files/download';
-const DOWNLOADED_FILE_NAME = 'transactions_2026-04-15.csv';
+const DOWNLOADED_FILE_NAME = '20261112_Transactions.csv';
 
 /** Route every API-client call (get or apiClient) through one responder. */
 function respondToApiCalls(responder: EndpointResponder): void {
@@ -154,18 +154,18 @@ describe('Epic file-upload-and-files, Story 1: Uploaded files list with download
     ).toBeInTheDocument();
 
     const fileNameCells = within(table).getAllByRole('cell', {
-      name: /^transactions_.*\.csv$/,
+      name: /^\d{8}_Transactions.*\.csv$/,
     });
     expect(fileNameCells.map((cell) => cell.textContent?.trim())).toEqual([
-      'transactions_2026-04-15.csv',
-      'transactions_2026-04-14.csv',
-      'transactions_2026-04-13.csv',
+      '20261112_Transactions.csv',
+      '20261111_Transactions.csv',
+      '20261110_Transactions.csv',
     ]);
 
     const newestRow = within(table).getByRole('row', {
-      name: /transactions_2026-04-15\.csv/,
+      name: /20261112_Transactions\.csv/,
     });
-    expect(within(newestRow).getByText('2026-04-15 08:30')).toBeInTheDocument();
+    expect(within(newestRow).getByText('2026-11-12 13:19')).toBeInTheDocument();
 
     expect(screen.getByText('Showing 3 of 3 files')).toBeInTheDocument();
   });
