@@ -17,7 +17,8 @@
       "The sign-in username is sent with surrounding spaces trimmed; the password is sent exactly as typed.",
       "When sign-out fails, the error notification reads \"Sign-out failed\" with \"You are still signed in. Please try signing out again.\" The brief gives no wording; confirm it's what you want.",
       "The timeout warning wording (\"You're about to be signed out\", with 60 seconds to stay signed in) is not in the prototype; confirm it's OK.",
-      "If the server rejects the sign-out when a timeout ends your session, the app still sends you to Sign in, so the server session might stay valid until it expires there. The 15-minute and 8-hour limits are enforced only in the browser; confirm the backend's session expires on the same schedule."
+      "If the server rejects the sign-out when a timeout ends your session, the app still sends you to Sign in, so the server session might stay valid until it expires there. The 15-minute and 8-hour limits are enforced only in the browser; confirm the backend's session expires on the same schedule.",
+      "When the app can't reach the server to check your session, the screen reads \"We couldn't reach the server\" with a Retry button; confirm the wording is OK."
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,

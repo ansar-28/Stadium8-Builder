@@ -18,7 +18,10 @@ export function proxy(request: NextRequest) {
     response.headers.set('Cache-Control', 'no-store');
     return response;
   }
-  return NextResponse.redirect(new URL(SIGN_IN_PATH, request.url));
+  const signInUrl = request.nextUrl.clone();
+  signInUrl.pathname = SIGN_IN_PATH;
+  signInUrl.search = '';
+  return NextResponse.redirect(signInUrl);
 }
 
 export const config = {

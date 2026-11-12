@@ -6,6 +6,7 @@
 - Every screen except Sign in is now protected. Without a session cookie you go straight to Sign in, and with an expired session the app checks with the server, shows a loading placeholder, then sends you to Sign in.
 - The brand colours, both light and dark, and the Open Sans font are now applied app-wide. Dark mode follows the computer's setting.
 - The startup script that picks light or dark mode no longer uses the HTML-injection route the security check flags. It is now written straight into the page as plain script text, so the right colours still show from the first frame and the security check passes.
+- If the app can't reach the server to check your session (network drop, server error), you now see "We couldn't reach the server" with a Retry button instead of being sent to Sign in. Only a session the server actually rejects sends you to Sign in.
 
 ## Story 2: App frame with role-aware navigation
 
@@ -24,3 +25,4 @@
 - After 14 minutes without activity, a warning now says you're about to be signed out and offers "Stay signed in" or "Sign out". If you don't answer within 60 seconds, you're signed out and returned to Sign in.
 - You're now signed out 8 hours after signing in, even if you're active. The app keeps only the time you signed in on your computer, never your session key.
 - The warning opens with "Stay signed in" already focused. Tab stays inside the warning and Enter answers it. Pressing Escape or clicking outside doesn't close it.
+- The idle timeout now counts activity in every open tab of the app. If you're working in one tab, an idle tab won't sign you out, and its warning closes on its own.

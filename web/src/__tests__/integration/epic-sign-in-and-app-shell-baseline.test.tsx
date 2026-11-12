@@ -6,8 +6,10 @@
  * Epic-wide invariants (later stories do not re-assert these):
  * - The layout checks the session against userinfo before showing any protected
  *   screen, with a loading placeholder (role="status", name "Loading…") meanwhile.
- * - When the session check fails, protected content is never shown and the
- *   user is sent to /sign-in.
+ * - When the session is rejected (401/403), protected content is never shown and
+ *   the user is sent to /sign-in.
+ * - When the session check cannot reach the server (network error, 5xx), protected
+ *   content is never shown, the user stays put, and a "Retry" button re-checks.
  *
  * The layout performs its session check from the browser (client component
  * calling getUserInfo via @/lib/api/client) so the Playwright specs can mock it
@@ -15,6 +17,7 @@
  * Story 1's Playwright spec.
  */
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 // Will fail until implemented (TDD red)
 import AppLayout from '@/app/(app)/layout';
@@ -51,6 +54,13 @@ const expiredSessionError: APIError = {
   message: 'Unauthorized: Please log in to continue',
   statusCode: 401,
   details: ['Your session may have expired. Please log in again.'],
+  endpoint: '/v1/auth/userinfo',
+};
+
+const serverUnavailableError: APIError = {
+  message: 'Bad Gateway',
+  statusCode: 502,
+  details: ['Request failed with status 502'],
   endpoint: '/v1/auth/userinfo',
 };
 
@@ -112,5 +122,31 @@ describe('Protected app layout (epic baseline)', () => {
     expect(
       screen.queryByRole('heading', { name: 'Protected screen content' }),
     ).not.toBeInTheDocument();
+  });
+
+  // Code review: only a rejected session (401/403) signs the user out
+  it('offers a retry instead of signing out when the session check cannot reach the server', async () => {
+    mockGet
+      .mockRejectedValueOnce(serverUnavailableError)
+      .mockResolvedValueOnce(userInfoFor('File Importer'));
+    const user = userEvent.setup();
+
+    renderProtectedScreen();
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      /couldn.t reach the server/i,
+    );
+    expect(
+      screen.queryByRole('heading', { name: 'Protected screen content' }),
+    ).not.toBeInTheDocument();
+    expect(mockNavigate).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Retry' }));
+
+    expect(
+      await screen.findByRole('heading', { name: 'Protected screen content' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

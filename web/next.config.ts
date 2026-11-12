@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
         destination: `${AUTH_API_BASE_URL}/v1/auth/:path*`,
       },
       {
+        source: '/v1/health',
+        destination: `${AUTH_API_BASE_URL}/v1/health`,
+      },
+      {
         source: '/transactions-api/:path*',
         destination: `${TRANSACTIONS_API_BASE_URL}/:path*`,
       },

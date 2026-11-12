@@ -18,7 +18,9 @@ import {
   IDLE_SIGN_OUT_AFTER_MS,
   IDLE_WARNING_AFTER_MS,
   clearSignInTime,
+  readLastActivityTime,
   readSignInTime,
+  recordLastActivityTime,
   recordSignInTime,
 } from '@/lib/auth/session-clock';
 import { SIGN_IN_PATH } from '@/lib/auth/session-constants';
@@ -34,10 +36,19 @@ const ACTIVITY_EVENTS = [
   'scroll',
 ] as const;
 
+const ACTIVITY_SHARE_INTERVAL_MS = 1000;
+
+function markActive(lastActivityAtRef: { current: number }, activeAt: number) {
+  lastActivityAtRef.current = activeAt;
+  recordLastActivityTime(activeAt);
+}
+
 /**
  * Ends the session after 15 idle minutes (warning 60 seconds before) and 8 hours
  * after sign-in. Elapsed time is compared against `Date.now()` on every check, so
- * a throttled background tab still signs out on time once it wakes.
+ * a throttled background tab still signs out on time once it wakes. Idleness is
+ * measured from the latest activity in any open tab, because sign-out ends the
+ * session they all share.
  */
 export function SessionTimeout() {
   const router = useRouter();
@@ -71,7 +82,7 @@ export function SessionTimeout() {
   }, []);
 
   useEffect(() => {
-    lastActivityAtRef.current = Date.now();
+    markActive(lastActivityAtRef, Date.now());
     let signedInAt = readSignInTime();
     if (signedInAt === null) {
       signedInAt = Date.now();
@@ -82,20 +93,31 @@ export function SessionTimeout() {
     function checkSession() {
       if (hasEndedSessionRef.current) return;
       const now = Date.now();
-      const idleFor = now - lastActivityAtRef.current;
+      const lastActivityInAnyTab = Math.max(
+        lastActivityAtRef.current,
+        readLastActivityTime() ?? 0,
+      );
+      lastActivityAtRef.current = lastActivityInAnyTab;
+      const idleFor = now - lastActivityInAnyTab;
       if (now >= absoluteDeadline || idleFor >= IDLE_SIGN_OUT_AFTER_MS) {
         void endSessionRef.current();
         return;
       }
-      if (idleFor >= IDLE_WARNING_AFTER_MS && !isWarningOpenRef.current) {
-        openWarning(true);
+      if (idleFor >= IDLE_WARNING_AFTER_MS) {
+        if (!isWarningOpenRef.current) openWarning(true);
+      } else if (isWarningOpenRef.current) {
+        // The user became active in another tab, so this tab is no longer idle.
+        openWarning(false);
       }
     }
 
     function recordActivity() {
       // While the warning is open only "Stay signed in" counts as staying active.
       if (isWarningOpenRef.current) return;
-      lastActivityAtRef.current = Date.now();
+      const now = Date.now();
+      // Activity events fire many times a second; sharing it once a second is enough.
+      if (now - lastActivityAtRef.current < ACTIVITY_SHARE_INTERVAL_MS) return;
+      markActive(lastActivityAtRef, now);
     }
 
     for (const eventName of ACTIVITY_EVENTS) {
@@ -121,7 +143,7 @@ export function SessionTimeout() {
   }, [openWarning]);
 
   function handleStaySignedIn() {
-    lastActivityAtRef.current = Date.now();
+    markActive(lastActivityAtRef, Date.now());
     openWarning(false);
   }
 

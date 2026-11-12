@@ -22,6 +22,8 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SessionTimeout } from '@/components/layout/SessionTimeout';
+import { post } from '@/lib/api/client';
+import { LAST_ACTIVITY_AT_STORAGE_KEY } from '@/lib/auth/session-clock';
 
 vi.mock('@/lib/api/client', () => ({
   get: vi.fn(),
@@ -38,10 +40,15 @@ vi.mock('next/navigation', () => ({
 }));
 
 const FOURTEEN_MINUTES_AND_ONE_SECOND_MS = (14 * 60 + 1) * 1000;
+const ONE_SECOND_MS = 1000;
+const ONE_MINUTE_MS = 60 * 1000;
+
+const mockPost = post as ReturnType<typeof vi.fn>;
 
 describe('SessionTimeout warning', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    window.localStorage.clear();
     vi.useFakeTimers();
   });
 
@@ -75,5 +82,32 @@ describe('SessionTimeout warning', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
+  });
+
+  // Code review: sign-out ends the session every tab shares, so activity in any tab keeps it alive
+  it('closes the warning and keeps the session when the user is active in another tab', () => {
+    render(<SessionTimeout />);
+
+    act(() => {
+      vi.advanceTimersByTime(FOURTEEN_MINUTES_AND_ONE_SECOND_MS);
+    });
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+    // Another open tab of the app records the user's activity in shared storage.
+    window.localStorage.setItem(
+      LAST_ACTIVITY_AT_STORAGE_KEY,
+      String(Date.now()),
+    );
+    act(() => {
+      vi.advanceTimersByTime(ONE_SECOND_MS);
+    });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    // Past the point where this tab alone would have signed out.
+    act(() => {
+      vi.advanceTimersByTime(ONE_MINUTE_MS);
+    });
+    expect(mockPost).not.toHaveBeenCalled();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });
