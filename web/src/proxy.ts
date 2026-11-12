@@ -13,7 +13,10 @@ import {
  */
 export function proxy(request: NextRequest) {
   if (request.cookies.has(SESSION_COOKIE_NAME)) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Protected pages must never come back from the browser cache after sign-out.
+    response.headers.set('Cache-Control', 'no-store');
+    return response;
   }
   return NextResponse.redirect(new URL(SIGN_IN_PATH, request.url));
 }

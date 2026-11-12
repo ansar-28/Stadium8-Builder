@@ -18,6 +18,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 // Will fail until implemented (TDD red)
 import AppLayout from '@/app/(app)/layout';
+import { ToastProvider } from '@/contexts/ToastContext';
 import { get } from '@/lib/api/client';
 import { userInfoFor } from '@/mocks/data/identity';
 import type { APIError } from '@/types/api';
@@ -53,6 +54,17 @@ const expiredSessionError: APIError = {
   endpoint: '/v1/auth/userinfo',
 };
 
+// The root layout supplies the notification provider around every screen.
+function renderProtectedScreen() {
+  return render(
+    <ToastProvider>
+      <AppLayout>
+        <h1>Protected screen content</h1>
+      </AppLayout>
+    </ToastProvider>,
+  );
+}
+
 describe('Protected app layout (epic baseline)', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -67,11 +79,7 @@ describe('Protected app layout (epic baseline)', () => {
       }),
     );
 
-    render(
-      <AppLayout>
-        <h1>Protected screen content</h1>
-      </AppLayout>,
-    );
+    renderProtectedScreen();
 
     expect(
       screen.getByRole('status', { name: /loading/i }),
@@ -94,11 +102,7 @@ describe('Protected app layout (epic baseline)', () => {
   it('never shows protected content and sends the user to sign in when the session check fails', async () => {
     mockGet.mockRejectedValue(expiredSessionError);
 
-    render(
-      <AppLayout>
-        <h1>Protected screen content</h1>
-      </AppLayout>,
-    );
+    renderProtectedScreen();
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith(

@@ -12,3 +12,8 @@
 - Files, Upload and Export now have their own protected screens, each showing just its title and description for now. Their content comes in later epics.
 - A "Dark mode" switch in the header lets you pick light or dark, and the browser remembers your pick. Until you choose, the app follows your computer's setting, including if you change it while the app is open.
 - Notifications now appear bottom-right, and screen readers announce them politely. Each one has a close button. Success messages fade after about five seconds, and errors stay until you close them.
+
+## Story 3: Sign out
+
+- The header now has a working Sign out button. It reads "Signing out…" and can't be pressed again until the sign-out finishes, then you're back on Sign in with empty fields. Pressing Back afterwards re-checks your session and returns you to Sign in.
+- If sign-out fails, an error notification says "Sign-out failed" and stays until you close it. The button becomes available again so you can retry.

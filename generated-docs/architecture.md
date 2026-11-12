@@ -16,14 +16,15 @@
 | `FILE_IMPORTER_ROLE_NAME`, `APPROVER_ROLE_NAME`, `hasRole`, `roleNamesOf`, `displayNameOf` | `web/src/lib/auth/roles.ts` | Role checks and display name (FirstName + LastName) from userinfo — use for every role-based hiding |
 | `AppHeader` | `web/src/components/layout/AppHeader.tsx` | Brand header: product name, `MainNav`, user name, role chips (`list` "Roles"), `ThemeSwitch`; `actions` slot for extra right-hand controls |
 | `MainNav`, `MAIN_NAVIGATION_ITEMS` | `web/src/components/layout/MainNav.tsx` | Nav landmark "Main"; role-gated items (Upload = File Importer); `aria-current="page"` on the active route |
+| `SignOutButton` | `web/src/components/layout/SignOutButton.tsx` | Header "Sign out": calls logout, "Signing out…" + disabled while pending, pushes `/sign-in` on success, persistent error toast "Sign-out failed" on failure; rendered by the `(app)` layout in `AppHeader`'s `actions` |
 | `ThemeSwitch` | `web/src/components/layout/ThemeSwitch.tsx` | Header switch "Dark mode" |
 | `PageHeader` | `web/src/components/layout/PageHeader.tsx` | Screen title (h1) + muted description + optional right-aligned action |
-| `ToastProvider`, `useToast()`, `ToastContainer` | `web/src/contexts/ToastContext.tsx`, `web/src/components/toast/` | Notifications: bottom-right polite region "Notifications", each a `status` with "Dismiss notification"; non-errors fade after 5 s, errors persist until closed |
+| `ToastProvider`, `useToast()`, `ToastContainer` | `web/src/contexts/ToastContext.tsx`, `web/src/components/toast/` | Notifications: bottom-right polite region "Notifications", each a `status` with "Dismiss notification"; non-errors fade after 5 s, errors persist until closed. Mounted by the root layout — tests rendering the `(app)` layout must wrap it in `ToastProvider` |
 | `Switch` (Shadcn) | `web/src/components/ui/switch.tsx` | Switch primitive; extra `thumbClassName` prop for restyling the thumb |
 
 ## Conventions
 - Browser API calls are same-origin (`API_BASE_URL = ''`): `next.config.ts` rewrites `/v1/auth/*` to `AUTH_API_BASE_URL` and `/transactions-api/*` to `TRANSACTIONS_API_BASE_URL` (server-side env vars, never `NEXT_PUBLIC_`).
-- `web/src/proxy.ts` redirects requests without a `session` cookie to `/sign-in` (cookie presence only); session validity is checked client-side by the `(app)` layout so Playwright `page.route()` can mock it.
+- `web/src/proxy.ts` redirects requests without a `session` cookie to `/sign-in` (cookie presence only) and marks protected responses `Cache-Control: no-store`; session validity is checked client-side by the `(app)` layout so Playwright `page.route()` can mock it.
 - Every signed-in screen lives under `web/src/app/(app)/`; public screens (Sign in) live outside it and must be excluded in the proxy matcher.
 - Design tokens in `globals.css` include `primary-hover` (button hover fill), `destructive-text` (error text — `destructive` is a fill only, it fails as text in dark mode), `success-text` / `warning-text` (status text and icons), and `brand` / `brand-foreground` / `brand-muted-foreground` (header identity colour and its inactive-nav text, both modes).
 - Controls on the brand header use a `brand-foreground` focus outline (the `ring` token lacks contrast on brand blue).
