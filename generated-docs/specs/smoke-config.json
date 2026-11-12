@@ -1,0 +1,1 @@
+{"attempt":1,"baseUrl":"http://localhost:10010","method":"GET","path":"/v1/health","headers":[],"body":null,"envFile":"web/.env.local","timeoutMs":10000,"reachabilityOnly":true,"writeShellArtifact":"generated-docs/specs/api-smoke-test.sh","bodyExcerptLimit":500}

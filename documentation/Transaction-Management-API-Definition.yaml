@@ -1,0 +1,1399 @@
+openapi: 3.0.3
+info:
+  title: TransactionManagement
+  version: 1.0.0
+servers:
+  - url: http://localhost:10005
+security:
+  - SessionCookie: []
+paths:
+  /v1/file-settings:
+    get:
+      operationId: FileSettingGetList
+      summary: "Gets a list of all File Settings"
+      security:
+        - SessionCookie: []
+      tags:
+        - File
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileSettingReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/file-settings/{SettingId}:
+    put:
+      operationId: FileSettingUpdate
+      summary: "Update an existing File Settings"
+      tags:
+        - File
+      parameters:
+        - name: SettingId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileSettingWrite"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-sources:
+    get:
+      operationId: FileSourceGetList
+      summary: "Gets a list of all File Sources"
+      tags:
+        - File
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdNameTypeList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-types:
+    get:
+      operationId: FileTypeGetList
+      summary: "Gets a list of all File types"
+      tags:
+        - File
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdNameTypeList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-location-types:
+    get:
+      operationId: FileLocationTypeGetList
+      summary: "Gets a list of all File Location Types"
+      tags:
+        - File
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdNameTypeList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-locations:
+    get:
+      operationId: FileLocationGetList
+      summary: "Gets a list of all File Locations for the specified file setting"
+      tags:
+        - File
+      parameters:
+        - name: SettingId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileLocationReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-locations/{LocationId}:
+    put:
+      operationId: FileLocationUpdate
+      summary: "Update an existing File Location"
+      tags:
+        - File
+      parameters:
+        - name: LocationId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileLocationWrite"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/bulk-file-setting-databases:
+    get:
+      operationId: BulkFileSettingDatabaseGetList
+      summary: "Gets a list of all Bulk File Setting Databases"
+      tags:
+        - File
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdNameTypeList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/bulk-file-settings:
+    get:
+      operationId: BulkFileSettingGetList
+      summary: "Gets a list of all Bulk File Settings for the specified file setting"
+      tags:
+        - File
+      parameters:
+        - name: SettingId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkFileSettingReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/bulk-file-settings/{BulkFileSettingId}:
+    put:
+      operationId: BulkFileSettingUpdate
+      summary: "Update an existing Bulk File Setting"
+      tags:
+        - File
+      parameters:
+        - name: BulkFileSettingId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkFileSettingWrite"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-logs:
+    get:
+      operationId: FileLogGetList
+      summary: "Gets a list of file log entries"
+      tags:
+        - File
+      parameters:
+        - name: IsActive
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "Yes"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileLogList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-process-logs/{LogId}:
+    get:
+      operationId: FileProcessLogGetList
+      summary: "Gets a list of file process log entries for a file log entry"
+      tags:
+        - File
+      parameters:
+        - name: LogId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileProcessLogList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/file-logs/data:
+    get:
+      operationId: FileLogDataDownload
+      summary: Download a data file with input ID
+      tags:
+        - File
+      description: Downloads a file from the server as a stream, using the provided file path.
+      parameters:
+        - name: LogId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Id of the file in the log
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files/download:
+    get:
+      operationId: FilesDownload
+      summary: Download a file with input ID
+      tags:
+        - File
+      description: Downloads a file from the server as a stream, using the provided file path.
+      parameters:
+        - name: FileLogId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Absolute or relative path to the file on the server
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files/bulk-errors/download:
+    get:
+      operationId: FilesBulkErrorsDownload
+      summary: Download a bulk error file with input ID
+      tags:
+        - File
+      description: Downloads a file from the server as a stream, using the provided file path.
+      parameters:
+        - name: FileLogId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Absolute or relative path to the file on the server
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/process-definitions:
+    get:
+      operationId: ProcessDefinitionGetList
+      summary: "Gets a list of all Process Definitions"
+      tags:
+        - ProcessAutomation
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcessDefinitionReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files:
+    delete:
+      tags:
+        - File
+      operationId: FilesDelete
+      summary: Cancel a file by LogId
+      description: Deactivate and delete a file from the staging table using its LogId
+      parameters:
+        - name: LogId
+          in: query
+          description: The LogId of the file to be deleted
+          required: true
+          schema:
+            type: integer
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files/retry-validation:
+    post:
+      tags:
+        - File
+      operationId: FilesRetryValidation
+      summary: Retry validation for a file
+      description: Retry validation for a file and attempt to fix data
+      parameters:
+        - name: LogId
+          in: query
+          description: The LogId of the file to retry validation
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files/upload:
+    post:
+      operationId: FilesUpload
+      summary: Upload a file
+      description: Upload a file.
+      tags:
+        - File
+      parameters:
+        - name: FileSettingId
+          in: query
+          description: The FileSettingId associated with the file
+          required: true
+          schema:
+            type: integer
+        - name: FileSettingName
+          in: query
+          description: The FileSettingName associated with the file
+          required: true
+          schema:
+            type: string
+        - name: FileName
+          in: query
+          description: The name of the file being uploaded
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files/validation-errors/columns:
+    get:
+      tags:
+        - File
+      operationId: FileValidationErrorColumnGetList
+      summary: Get stadium column definitions for a specific table
+      description: Returns UI column definitions for the requested table and schema.
+      parameters:
+        - name: FileLogId
+          in: query
+          description: Target table name
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ColumnList"
+              examples:
+                sample:
+                  value:
+                    ColumnList:
+                      - Name: "Name"
+                        HeaderText: "User Name"
+                        Visible: true
+                        CellAlignment: "left"
+                        CellDisplay: "text"
+                        Classes: "col-name"
+                      - Name: "Age"
+                        HeaderText: "Age"
+                        Visible: true
+                        CellAlignment: "right"
+                        CellDisplay: "number"
+                        Classes: "col-age"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+  /v1/files/validation-errors:
+    get:
+      tags:
+        - File
+      operationId: FileValidationErrorGetList
+      summary: Get invalid rows for a specific file as a single JSON array
+      description: >
+        Returns a ValidationErrors object containing JsonArray (a JSON array string of all per-row objects that have errors).
+      parameters:
+        - name: FileLogId
+          in: query
+          description: LogId of the file being inspected
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrors"
+              examples:
+                sample:
+                  value:
+                    ValidationErrors:
+                      JsonArray: >-
+                        [{"Id":23,"PrimaryKeyValue":100,"ChangeType":"UPDATE","ChangedBy":"System","ChangedAt":"2025-09-29T15:28:56.2470934","Age":"19","Diet":"Herbivore","HabitatId":"5","LastChangedDate":"2025-09-29 13:20:11.9185595","LastChangedUser":"System","Name":"Bison","Species":"Bison bison"}]
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/transactions:
+    get:
+      tags:
+        - Transactions
+      operationId: TransactionGetList
+      summary: Get a list of all transactions
+      description: Get a list of all transactions with their status
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/transactions/approve:
+    post:
+      tags:
+        - Transactions
+      operationId: TransactionApprove
+      summary: Approve a transaction by Id
+      description: Sets the Status of the transaction to 'Approved'.
+      parameters:
+        - name: TransactionId
+          in: query
+          description: Id of the transaction to approve
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/transactions/reject:
+    post:
+      tags:
+        - Transactions
+      operationId: TransactionReject
+      summary: Reject a transaction by Id
+      description: Sets the Status of the transaction to 'Rejected' and records the supplied user note.
+      parameters:
+        - name: TransactionId
+          in: query
+          description: Id of the transaction to reject
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionRejectWrite"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/users:
+    get:
+      tags:
+        - Users
+      operationId: UserGetList
+      summary: Get a list of all users
+      description: Get a list of all users
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+    post:
+      tags:
+        - Users
+      operationId: UserCreate
+      summary: Create a new user
+      parameters:
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserWrite"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/users/{Id}:
+    get:
+      tags:
+        - Users
+      operationId: UserGetById
+      summary: Get a specific user by Id
+      description: Get a specific user by Id
+      parameters:
+        - name: Id
+          in: path
+          description: Unique Id of User
+          required: true
+          schema:
+            type: integer
+            example: "1"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRead"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+    put:
+      tags:
+        - Users
+      operationId: UserUpdate
+      summary: Update an existing user by Id
+      parameters:
+        - name: Id
+          in: path
+          description: Id of the user to update
+          required: true
+          schema:
+            type: integer
+            example: "1"
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserWrite"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+    delete:
+      tags:
+        - Users
+      operationId: UserDelete
+      summary: Delete a user by Id
+      parameters:
+        - name: Id
+          in: path
+          description: Id of the user to delete
+          required: true
+          schema:
+            type: integer
+            example: "1"
+        - name: LastChangedUser
+          in: header
+          description: Name of user performing the action
+          required: true
+          schema:
+            type: string
+            example: "John Doe"
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/roles:
+    get:
+      tags:
+        - Roles
+      operationId: RoleGetList
+      summary: Get a list of all roles
+      description: Get a list of all roles
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoleReadList"
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+components:
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: session
+      description: |
+        HttpOnly, Secure, SameSite=Strict session cookie set by POST
+        /auth/login. Browser attaches it automatically on same-site requests.
+        Required by /auth/logout, /auth/userinfo, and /ping.
+  schemas:
+    DefaultResponse:
+      type: object
+      properties:
+        Id:
+          type: integer
+        MessageType:
+          type: string
+        Messages:
+          type: array
+          items:
+            type: string
+    IdNameType:
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        LastChangedUser:
+          type: string
+        LastChangedDate:
+          type: string
+    IdNameTypeList:
+      type: object
+      properties:
+        IdNames:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdNameType"
+    ProcessDefinitionRead:
+      properties:
+        DefinitionId:
+          type: string
+        Name:
+          type: string
+    ProcessDefinitionReadList:
+      type: object
+      properties:
+        ProcessDefinitions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProcessDefinitionRead"
+    FileLocationRead:
+      properties:
+        Id:
+          type: integer
+        SettingId:
+          type: integer
+        SettingName:
+          type: string
+        LocationTypeId:
+          type: integer
+        LocationTypeName:
+          type: string
+        FileName:
+          type: string
+        Folder:
+          type: string
+        LastChangedUser:
+          type: string
+        LastChangedDate:
+          type: string
+    FileLocationReadList:
+      type: object
+      properties:
+        FileLocations:
+          type: array
+          items:
+            $ref: "#/components/schemas/FileLocationRead"
+    FileLocationWrite:
+      properties:
+        SettingId:
+          type: integer
+        LocationTypeId:
+          type: integer
+        FileName:
+          type: string
+        Folder:
+          type: string
+    BulkFileSettingRead:
+      properties:
+        Id:
+          type: integer
+        SettingId:
+          type: integer
+        SettingName:
+          type: string
+        BulkSettingDatabaseId:
+          type: integer
+        BulkSettingDatabaseName:
+          type: string
+        SchemaName:
+          type: string
+        TableName:
+          type: string
+        ErrorFile:
+          type: string
+        FormatFile:
+          type: string
+        FirstRow:
+          type: integer
+        RowTerminator:
+          type: string
+        FieldTerminator:
+          type: string
+        QuotedIdentifier:
+          type: boolean
+        LastChangedUser:
+          type: string
+        LastChangedDate:
+          type: string
+    BulkFileSettingReadList:
+      type: object
+      properties:
+        BulkFileSettings:
+          type: array
+          items:
+            $ref: "#/components/schemas/BulkFileSettingRead"
+    BulkFileSettingWrite:
+      properties:
+        SettingId:
+          type: integer
+        BulkSettingDatabaseId:
+          type: integer
+        SchemaName:
+          type: string
+        TableName:
+          type: string
+        ErrorFile:
+          type: string
+        FormatFile:
+          type: string
+        FirstRow:
+          type: integer
+        RowTerminator:
+          type: string
+        FieldTerminator:
+          type: string
+        QuotedIdentifier:
+          type: boolean
+    FileSettingWrite:
+      type: object
+      properties:
+        Name:
+          type: string
+        SourceId:
+          type: integer
+        TypeId:
+          type: integer
+        Direction:
+          type: string
+        StagingSchema:
+          type: string
+        StagingTable:
+          type: string
+        TargetSchema:
+          type: string
+        TargetTable:
+          type: string
+        ProcessDefinitionId:
+          type: string
+        IsActive:
+          type: boolean
+    FileSettingRead:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+        SourceId:
+          type: integer
+        SourceName:
+          type: string
+        TypeId:
+          type: integer
+        TypeName:
+          type: string
+        Direction:
+          type: string
+        StagingSchema:
+          type: string
+        StagingTable:
+          type: string
+        TargetSchema:
+          type: string
+        TargetTable:
+          type: string
+        ProcessDefinitionId:
+          type: string
+        ProcessDefinitionName:
+          type: string
+        IsActive:
+          type: boolean
+        LastChangedUser:
+          type: string
+        LastChangedDate:
+          type: string
+    FileSettingReadList:
+      type: object
+      properties:
+        FileSettings:
+          type: array
+          items:
+            $ref: "#/components/schemas/FileSettingRead"
+    FileLog:
+      type: object
+      properties:
+        Id:
+          type: integer
+        ProcessDate:
+          type: string
+        SettingId:
+          type: integer
+        SettingName:
+          type: string
+        ProcessInstanceId:
+          type: string
+        CurrentFolder:
+          type: string
+        CurrentFileName:
+          type: string
+        FileHash:
+          type: string
+        RecordCount:
+          type: string
+        Direction:
+          type: string
+        CurrentStatus:
+          type: string
+        LastExecutedActivityName:
+          type: string
+        ProcessDefinitionId:
+          type: string
+        ProcessName:
+          type: string
+        IsActive:
+          type: boolean
+        BulkErrorFile:
+          type: string
+        HasBulkErrorFile:
+          type: string
+    FileLogList:
+      type: object
+      properties:
+        FileLog:
+          type: array
+          items:
+            $ref: "#/components/schemas/FileLog"
+    FileProcessLog:
+      type: object
+      properties:
+        FileName:
+          type: string
+        ActivityName:
+          type: string
+        DecisionResult:
+          type: string
+        LastExecutedActivityName:
+          type: string
+        StartDate:
+          type: string
+        EndDate:
+          type: string
+    FileProcessLogList:
+      type: object
+      properties:
+        FileLog:
+          type: array
+          items:
+            $ref: "#/components/schemas/FileProcessLog"
+    ColumnDefinition:
+      type: object
+      properties:
+        Name:
+          type: string
+        HeaderText:
+          type: string
+        Visible:
+          type: boolean
+        CellAlignment:
+          type: string
+        CellDisplay:
+          type: string
+        Classes:
+          type: string
+    ColumnList:
+      type: object
+      properties:
+        ColumnList:
+          type: array
+          items:
+            $ref: "#/components/schemas/ColumnDefinition"
+    ValidationErrors:
+      type: object
+      properties:
+        ValidationErrors:
+          type: object
+          properties:
+            JsonArray:
+              type: string
+              description: JSON array string of per-row version objects
+    UserReadList:
+      type: object
+      properties:
+        Users:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserRead"
+    RoleReadList:
+      type: object
+      properties:
+        Roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleRead"
+    UserRead:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: "1"
+        Email:
+          type: string
+          example: "Test@gmail.com"
+        FirstName:
+          type: string
+          example: "John"
+        LastName:
+          type: string
+          example: "Doe"
+        RolesString:
+          type: string
+          example: "Viewer"
+        Roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleRead"
+        LastChangedUser:
+          type: string
+          example: "Sarah"
+        LastChangedDate:
+          type: string
+          example: "2025-04-30 15:00:00"
+    UserWrite:
+      type: object
+      properties:
+        Email:
+          type: string
+          example: "Test@gmail.com"
+        FirstName:
+          type: string
+          example: "John"
+        LastName:
+          type: string
+          example: "Doe"
+        Password:
+          type: string
+          example: "Testing123"
+        Roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleItem"
+    TransactionRejectWrite:
+      type: object
+      properties:
+        UserNote:
+          type: string
+          example: "Amount does not match supporting document"
+    TransactionRead:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: "1"
+        FileLogId:
+          type: integer
+          example: "1"
+        FileName:
+          type: string
+          example: "transactions_2025_04_30.csv"
+        Reference:
+          type: string
+          example: "TXN-00001"
+        TransactionDate:
+          type: string
+          example: "2025-04-30 15:00:00"
+        AccountNumber:
+          type: string
+          example: "1234567890"
+        Description:
+          type: string
+          example: "Payment for invoice 1234"
+        Amount:
+          type: number
+          example: 1500.50
+        TransactionType:
+          type: string
+          example: "Debit"
+        Currency:
+          type: string
+          example: "ZAR"
+        Status:
+          type: string
+          example: "Imported"
+        UserNote:
+          type: string
+          example: "Reviewed and approved"
+        LastChangedUser:
+          type: string
+          example: "John Doe"
+        LastChangedDate:
+          type: string
+          example: "2025-04-30 15:00:00"
+    TransactionReadList:
+      type: object
+      properties:
+        Transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionRead"
+    RoleItem:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: "1"
+    RoleRead:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: "1"
+        Name:
+          type: string
+          example: "Viewer"
+        LastChangedUser:
+          type: string
+          example: "John Doe"
+        LastChangedDate:
+          type: string
+          example: "2025-04-30 15:00:00"

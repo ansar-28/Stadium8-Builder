@@ -1,0 +1,257 @@
+openapi: 3.0.3
+info:
+  title: BffAuthentication
+  version: 1.0.0
+  description: |
+    Backend-for-Frontend (BFF) authentication API for credentials-based login
+    without SSO, OIDC, or an external identity provider.
+
+    Session state is conveyed exclusively via an HttpOnly, Secure,
+    SameSite=Strict cookie set by the backend on successful login. Protected
+    endpoints (/v1/auth/logout, /v1/auth/userinfo) require this cookie.
+
+    The frontend SPA and the BFF must share an eTLD+1 (e.g. app.example.com +
+    bff.example.com, or both on localhost) so SameSite=Strict cookies are
+    delivered on cross-origin same-site requests.
+
+servers:
+  - url: http://localhost:10010
+    description: Local development server (HTTPS)
+
+paths:
+  /v1/auth/login:
+    post:
+      operationId: AuthLogin
+      summary: Authenticate with username and password
+      description: |
+        Validates submitted credentials and, on success, sets an HttpOnly,
+        Secure, SameSite=Strict session cookie. Returns 200 with a
+        confirmation message. The frontend decides where to navigate next.
+
+        On failure, returns 401 with a deliberately generic message that
+        does not reveal which field was incorrect.
+      tags: [Authentication]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+            example:
+              Username: demo@test.com
+              Password: changeme
+      responses:
+        "200":
+          description: OK (200)
+          headers:
+            Set-Cookie:
+              description: "Session cookie. Attributes: HttpOnly; Secure; SameSite=Strict; Path=/."
+              schema:
+                type: string
+                example: "session=<opaque-token>; Path=/; HttpOnly; Secure; SameSite=Strict"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+              example:
+                Messages:
+                  - Login successful
+        "400":
+          description: Invalid request body (missing or malformed fields).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                Error: INVALID_REQUEST
+                Message: Username and password are required.
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/auth/logout:
+    post:
+      operationId: AuthLogout
+      summary: Sign out and invalidate the session cookie
+      description: |
+        Invalidates the server-side session and instructs the browser to
+        clear the session cookie via Set-Cookie with Max-Age=0. The frontend
+        must wait for this response before navigating away.
+      tags: [Authentication]
+      security:
+        - SessionCookie: []
+      responses:
+        "200":
+          description: OK (200)
+          headers:
+            Set-Cookie:
+              description: Cookie-clearing directive (same name, Max-Age=0).
+              schema:
+                type: string
+                example: "session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+              example:
+                Messages:
+                  - Logout successful
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/auth/userinfo:
+    get:
+      operationId: AuthUserInfoGet
+      summary: Retrieve the authenticated user's information
+      description: |
+        Returns the authenticated user's profile. Used by the frontend to
+        render the welcome message on the confirmation page and to verify
+        session validity on page load.
+      tags: [Authentication]
+      security:
+        - SessionCookie: []
+      responses:
+        "200":
+          description: OK (200)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfoRead"
+              example:
+                Username: demo
+        "401":
+          description: Unauthorized (401)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+  /v1/health:
+    get:
+      operationId: HealthGet
+      summary: Health probe
+      description: Returns 200 unconditionally if the BFF is reachable. No session required.
+      tags: [Health]
+      security: []
+      responses:
+        "200":
+          description: OK (200)
+        "500":
+          description: Internal Server Error (500)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultResponse"
+
+components:
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: session
+      description: |
+        HttpOnly, Secure, SameSite=Strict session cookie set by POST
+        /v1/auth/login. Browser attaches it automatically on same-site requests.
+        Required by /v1/auth/logout and /v1/auth/userinfo.
+
+  schemas:
+    LoginRequest:
+      type: object
+      description: Credentials submitted to POST /v1/auth/login.
+      properties:
+        Username:
+          type: string
+          description: Account username.
+          example: demo
+        Password:
+          type: string
+          description: Plaintext password sent over HTTPS; compared server-side against a bcrypt hash.
+          example: changeme
+
+    UserInfoRead:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: "1"
+        Email:
+          type: string
+          example: "Test@gmail.com"
+        FirstName:
+          type: string
+          example: "John"
+        LastName:
+          type: string
+          example: "Doe"
+        RolesString:
+          type: string
+          example: "Viewer"
+        Roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoleRead"
+        LastChangedUser:
+          type: string
+          example: "Sarah"
+        LastChangedDate:
+          type: string
+          example: "2025-04-30 15:00:00"
+
+    RoleRead:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: "1"
+        Name:
+          type: string
+          example: "Viewer"
+        LastChangedUser:
+          type: string
+          example: "John Doe"
+        LastChangedDate:
+          type: string
+          example: "2025-04-30 15:00:00"
+
+    DefaultResponse:
+      type: object
+      description: Standard response for POST endpoints and 500 errors across all endpoints.
+      properties:
+        Id:
+          type: integer
+        MessageType:
+          type: string
+        Messages:
+          type: array
+          items:
+            type: string
+
+    ErrorResponse:
+      type: object
+      description: |
+        Error response for invalid requests (400). Error is a machine-readable
+        code; Message is a human-readable description.
+      properties:
+        Error:
+          type: string
+          description: |
+            Machine-readable error code. Known values:
+            - INVALID_REQUEST — POST /v1/auth/login, malformed body (400)
+          example: INVALID_REQUEST
+        Message:
+          type: string
+          example: Username and password are required.

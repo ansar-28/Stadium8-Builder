@@ -11,7 +11,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-No project yet. Run `/start` to describe what you're building — this section will then describe your app.
+Transaction Management: a staff-facing transaction-approval console. A File Importer uploads seven-column .csv transaction files; an Approver approves or rejects the imported transactions (rejections need a reason); both view and download files and export actioned transactions.
+
+- Roles: `File Importer`, `Approver` (a user may hold either or both; no other role exists).
+- Auth: server-side, browser-managed HttpOnly session cookie. No token in frontend code.
+- Data source: existing API, two live backend services reached through a Next.js proxy. No mocks.
+
+Facts and detail: `generated-docs/project.md`. Epics and briefs: `generated-docs/epics/`. Reusable code and conventions: `generated-docs/architecture.md`.
 
 ## Repository Structure
 

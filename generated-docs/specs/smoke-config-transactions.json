@@ -1,0 +1,1 @@
+{"attempt":2,"baseUrl":"http://localhost:10005/transactions-api","method":"GET","path":"/v1/transactions","headers":[],"body":null,"envFile":"web/.env.local","timeoutMs":10000,"reachabilityOnly":true,"writeShellArtifact":"generated-docs/specs/api-smoke-test-transactions.sh","bodyExcerptLimit":500}
