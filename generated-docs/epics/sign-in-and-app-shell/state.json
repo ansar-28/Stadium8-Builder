@@ -10,7 +10,11 @@
     "unverifiedAssumptions": [
       "Verify your role chips and the Upload item: the app expects the backend to name roles exactly \"File Importer\" and \"Approver\" (the spec's example shows \"Viewer\"). If the names differ, you'll see unexpected chips and File Importers won't see Upload.",
       "Verify your name in the header: the app shows your first name followed by your last name from your account details. If the backend leaves those empty or keeps the name elsewhere, the header will show a blank or wrong name.",
-      "Verify the session timeouts match the server: the app signs you out after 15 minutes idle and 8 hours total, but the server's own session may expire sooner. If it does, you'll be bounced to Sign in without the warning appearing first."
+      "Verify the session timeouts match the server: the app signs you out after 15 minutes idle and 8 hours total, but the server's own session may expire sooner. If it does, you'll be bounced to Sign in without the warning appearing first.",
+      "If sign-in fails because the server is down or errors (not wrong credentials), the screen says \"Sign-in is unavailable right now. Please try again in a moment.\" The design has no wording for this; confirm it's OK.",
+      "In dark mode, error text uses the prototype's lighter red (#f87171) because the design system's dark error red is too faint to read as text on the dark card; confirm it's OK.",
+      "The backend's session cookie must be named \"session\" with Path=/; check that a real sign-in lands you on Transactions instead of bouncing back to Sign in.",
+      "The sign-in username is sent with surrounding spaces trimmed; the password is sent exactly as typed."
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
@@ -19,11 +23,11 @@
   },
   "phase": "BUILD",
   "stories": {
-    "1": { "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
+    "1": { "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:25:00.000Z", "completedAt": "2026-11-12T08:50:00.000Z" },
     "2": { "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
     "3": { "storyId": "f5c28803-3c5b-4e17-9794-e229892e1183", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
     "4": { "storyId": "4d983e0a-5a2e-4906-854c-9d0509468a80", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T08:10:00.000Z"
+  "lastUpdated": "2026-11-12T08:50:00.000Z"
 }

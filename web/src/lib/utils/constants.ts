@@ -6,12 +6,12 @@
  */
 
 /**
- * API base URL - Retrieved from environment variable
- * Set NEXT_PUBLIC_API_BASE_URL in your .env.local file
- * Default: http://localhost:8042 (adjust as needed)
+ * API calls are same-origin: the browser only ever calls this app's own
+ * `/v1/auth/*` and `/transactions-api/*` paths, and the rewrites in
+ * `next.config.ts` forward them to the backends. Keeping the backends' origins
+ * server-side means no CORS and the HttpOnly session cookie stays first-party.
  */
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8042';
+export const API_BASE_URL = '';
 
 /**
  * Default pagination settings
