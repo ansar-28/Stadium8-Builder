@@ -54,7 +54,8 @@ export function Toast({ toast, onDismiss }: ToastProps) {
       aria-atomic="true"
       onClick={toast.onClick ? handleToastClick : undefined}
       className={cn(
-        'pointer-events-auto flex items-start gap-3 rounded-lg border border-l-4 border-border border-l-primary bg-popover p-4 text-popover-foreground shadow-lg',
+        'pointer-events-auto flex items-start gap-3 rounded-lg border border-l-4 border-border bg-popover p-4 text-popover-foreground shadow-lg',
+        toast.variant === 'error' ? 'border-l-destructive' : 'border-l-primary',
         'animate-in fade-in slide-in-from-right duration-300 transition-opacity',
         isFading && 'opacity-0',
         toast.onClick && 'cursor-pointer',
@@ -69,6 +70,21 @@ export function Toast({ toast, onDismiss }: ToastProps) {
         <p className="text-sm font-semibold">{toast.title}</p>
         {toast.message && (
           <p className="mt-1 text-sm text-muted-foreground">{toast.message}</p>
+        )}
+        {toast.action && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-3 font-semibold"
+            onClick={(event) => {
+              event.stopPropagation();
+              onDismiss(toast.id);
+              toast.action?.onAction();
+            }}
+          >
+            {toast.action.label}
+          </Button>
         )}
       </div>
 

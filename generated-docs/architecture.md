@@ -23,7 +23,13 @@
 | `SignOutButton` | `web/src/components/layout/SignOutButton.tsx` | Header "Sign out" over `useSignOut()`: "Signing out…" + disabled while pending, persistent error toast "Sign-out failed" on failure; rendered by the `(app)` layout in `AppHeader`'s `actions` |
 | `ThemeSwitch` | `web/src/components/layout/ThemeSwitch.tsx` | Header switch "Dark mode" |
 | `PageHeader` | `web/src/components/layout/PageHeader.tsx` | Screen title (h1) + muted description + optional right-aligned action |
-| `ToastProvider`, `useToast()`, `ToastContainer` | `web/src/contexts/ToastContext.tsx`, `web/src/components/toast/` | Notifications: bottom-right polite region "Notifications", each a `status` with "Dismiss notification"; non-errors fade after 5 s, errors persist until closed. Mounted by the root layout — tests rendering the `(app)` layout must wrap it in `ToastProvider` |
+| `ToastProvider`, `useToast()`, `ToastContainer` | `web/src/contexts/ToastContext.tsx`, `web/src/components/toast/` | Notifications: bottom-right polite region "Notifications", each a `status` with "Dismiss notification"; non-errors fade after 5 s, errors persist until closed and have a red left edge; optional `action` (`{ label, onAction }`, e.g. "Try again") renders a button that closes the toast and runs it. Mounted by the root layout — tests rendering the `(app)` layout must wrap it in `ToastProvider` |
+| `serverMessageOf(error)` | `web/src/lib/api/errors.ts` | The server's own wording for a failed API call (`DefaultResponse.Messages` via the client error's `details`), with a non-blaming fallback |
+| `saveBlobAsFile(blob, fileName)` | `web/src/lib/download.ts` | Saves downloaded bytes to the user's computer under a file name (blob URL + `download` anchor) |
+| `formatDateTime`, `dateTimeSortValue` | `web/src/lib/format/date-time.ts` | Server date-time shown as `YYYY-MM-DD HH:mm` with no time-zone shift; numeric sort key (unreadable = oldest) |
+| `TablePagination`, `pageOf`, `pageCountOf`, `PAGE_SIZE_OPTIONS`, `DEFAULT_PAGE_SIZE` | `web/src/components/data-table/TablePagination.tsx` | Client-side table footer: "Showing n of total <noun>", "Rows per page" select (5/10/20/50, default 20), "Previous" / "Page n of m" / "Next" (disabled at the ends) |
+| `Table` family, `Select` family (Shadcn) | `web/src/components/ui/table.tsx`, `web/src/components/ui/select.tsx` | Table primitives; Select on `@radix-ui/react-select` (name the trigger with `aria-labelledby`) |
+| `UploadedFiles` | `web/src/components/files/UploadedFiles.tsx` | Uploaded files screen: `GET /v1/file-logs?IsActive=Yes`, newest first, paginated, per-row "Download <file name>" with success toast / persistent error toast + "Try again"; "Upload a file" for File Importers |
 | `Switch` (Shadcn) | `web/src/components/ui/switch.tsx` | Switch primitive; extra `thumbClassName` prop for restyling the thumb; resize with `data-[size=default]:h-*` / `w-*` (plain `h-*` / `w-*` lose to the size variant) |
 
 ## Conventions

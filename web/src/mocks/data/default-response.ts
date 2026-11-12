@@ -14,3 +14,15 @@ export function createDefaultResponse(
     ...overrides,
   };
 }
+
+/** `DefaultResponse` body for a 500 (upload / download server error). */
+export function createErrorResponse(
+  message = 'The server could not process the request.',
+  overrides: Partial<DefaultResponse> = {},
+): DefaultResponse {
+  return createDefaultResponse({
+    MessageType: 'Error',
+    Messages: [message],
+    ...overrides,
+  });
+}

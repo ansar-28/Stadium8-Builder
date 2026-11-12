@@ -8,6 +8,12 @@
  */
 export type ToastVariant = 'success' | 'error' | 'info' | 'warning';
 
+/** A button inside the notification, e.g. "Try again"; pressing it also closes the notification. */
+export interface ToastAction {
+  label: string;
+  onAction: () => void;
+}
+
 /**
  * Toast - Individual toast notification object
  */
@@ -19,6 +25,7 @@ export interface Toast {
   duration?: number; // Milliseconds before auto-hide (default 5000; always 0 = persist for errors)
   dismissible?: boolean; // Whether user can manually dismiss (default: true)
   onClick?: () => void; // Optional click handler for interactive toasts
+  action?: ToastAction;
 }
 
 /**
@@ -32,6 +39,7 @@ export interface ToastOptions {
   duration?: number;
   dismissible?: boolean;
   onClick?: () => void;
+  action?: ToastAction;
 }
 
 /**

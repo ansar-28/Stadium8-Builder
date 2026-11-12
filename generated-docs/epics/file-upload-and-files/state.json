@@ -12,21 +12,22 @@
     "unverifiedAssumptions": [
       "Verify an uploaded file is treated as a transaction file: the app sends one fixed file setting with every upload, and the brief does not yet say which setting identifies transaction files. If the wrong setting is used, the upload may be refused or the file may never show its transactions.",
       "Verify the Files list shows only files that uploaded successfully: the app asks the backend for active files only and assumes that means successfully uploaded. If the backend also returns failed or in-progress files that way, you will see files in the list that should not be there.",
-      "Verify the newest file is at the top: the app assumes each file's upload timestamp is a real date-and-time it can sort by. If the backend sends that value in a different format, the list order or the timestamps shown may be wrong."
+      "Verify the newest file is at the top: the app assumes each file's upload timestamp is a real date-and-time it can sort by. If the backend sends that value in a different format, the list order or the timestamps shown may be wrong.",
+      "Upload timestamps are shown exactly as the server records them, without converting time zones. Check that the times on Files match the times you uploaded."
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "READY-TO-BUILD",
+  "phase": "BUILD",
   "stories": {
     "1": {
       "storyId": "0e898163-27c3-42da-bf09-40e754bb57b1",
-      "status": "pending",
+      "status": "complete",
       "e2eStatus": "deferred",
-      "startedAt": null,
-      "completedAt": null
+      "startedAt": "2026-11-12T12:24:02.626Z",
+      "completedAt": "2026-11-12T12:29:01.343Z"
     },
     "2": {
       "storyId": "b3b8bf0a-cd34-4edf-b4fc-42916c4e7509",
@@ -44,5 +45,5 @@
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T09:31:56.747Z"
+  "lastUpdated": "2026-11-12T12:29:01.343Z"
 }
