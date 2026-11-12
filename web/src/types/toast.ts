@@ -16,7 +16,7 @@ export interface Toast {
   variant: ToastVariant;
   title: string;
   message?: string;
-  duration?: number; // Duration in milliseconds (default: 5000)
+  duration?: number; // Milliseconds before auto-hide (default 5000; always 0 = persist for errors)
   dismissible?: boolean; // Whether user can manually dismiss (default: true)
   onClick?: () => void; // Optional click handler for interactive toasts
 }
@@ -69,42 +69,13 @@ export interface ToastContainerProps {
 }
 
 /**
- * Default toast configuration values
+ * Default toast configuration values.
+ * Errors never auto-hide: they stay until the user closes them.
  */
 export const TOAST_DEFAULTS = {
-  DURATION: 5000, // 5 seconds
+  DURATION: 5000, // 5 seconds, for non-error toasts
+  FADE_OUT_MS: 300,
   MAX_TOASTS: 3,
-  POSITION: 'top-right' as const,
+  POSITION: 'bottom-right' as const,
   DISMISSIBLE: true,
-} as const;
-
-/**
- * Toast variant configuration
- * Maps variants to their visual properties
- */
-export const TOAST_VARIANT_CONFIG = {
-  success: {
-    bgColor: 'bg-green-50',
-    borderColor: 'border-green-200',
-    textColor: 'text-green-900',
-    iconColor: 'text-green-600',
-  },
-  error: {
-    bgColor: 'bg-red-50',
-    borderColor: 'border-red-200',
-    textColor: 'text-red-900',
-    iconColor: 'text-red-600',
-  },
-  info: {
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-blue-200',
-    textColor: 'text-blue-900',
-    iconColor: 'text-blue-600',
-  },
-  warning: {
-    bgColor: 'bg-amber-50',
-    borderColor: 'border-amber-200',
-    textColor: 'text-amber-900',
-    iconColor: 'text-amber-600',
-  },
 } as const;

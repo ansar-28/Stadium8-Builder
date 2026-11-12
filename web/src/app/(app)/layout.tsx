@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
+import { AppHeader } from '@/components/layout/AppHeader';
 import { SessionProvider } from '@/contexts/SessionContext';
 import { getUserInfo } from '@/lib/api/endpoints';
 import { SIGN_IN_PATH } from '@/lib/auth/session-constants';
@@ -60,6 +61,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider user={signedInUser}>
+      <AppHeader user={signedInUser} />
       <main id="main-content" className="mx-auto w-full max-w-[1280px] p-6">
         {children}
       </main>

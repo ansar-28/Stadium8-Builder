@@ -13,6 +13,8 @@
   --color-border: var(--border);
   --color-destructive: var(--destructive);
   --color-destructive-text: var(--destructive-text);
+  --color-success-text: var(--success-text);
+  --color-warning-text: var(--warning-text);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -24,6 +26,7 @@
   --color-primary: var(--primary);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted-foreground: var(--brand-muted-foreground);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -68,8 +71,11 @@
   --accent-foreground: #f6f9fc; /* 5.09:1 */
   --destructive: #b91c1c;
   --destructive-text: #b91c1c; /* error text: 5.86:1 on card, 6.47:1 on background */
+  --success-text: #15803d; /* design-system success: 5.01:1 on background */
+  --warning-text: #b45309; /* design-system warning: 5.01:1 on background */
   --brand: #004b8d; /* identity only: header / brand strip */
   --brand-foreground: #f6f9fc; /* 8.31:1 */
+  --brand-muted-foreground: #cfe0f2; /* header nav inactive: 6.52:1 on brand */
   --border: #d5dce4; /* decorative dividers only */
   --input: #767d85; /* field boundary: 3.77:1 on card, 4.16:1 on background */
   --ring: #156cbc; /* focus ring: 4.87:1 on card, 5.38:1 on background */
@@ -94,8 +100,11 @@
   --accent-foreground: #f6f9fc; /* 5.09:1 */
   --destructive: #c42a26; /* fill only: label #f6f9fc 5.36:1; as text only 3.05:1 on card */
   --destructive-text: #f87171; /* prototype error text: 6.25:1 on card, 6.89:1 on background */
+  --success-text: #4ade80; /* prototype ok text: bright tint, > 9:1 on card */
+  --warning-text: #fbbf24; /* prototype warn text: bright tint, > 9:1 on card */
   --brand: #004b8d; /* identity only: header / brand strip */
   --brand-foreground: #f6f9fc; /* 8.31:1 */
+  --brand-muted-foreground: #cfe0f2; /* header nav inactive: 6.52:1 on brand */
   --border: #2e353d; /* prototype border; decorative dividers only */
   --input: #6b737c; /* field boundary: 3.60:1 on card, 3.96:1 on background */
   --ring: #7db4ea; /* prototype focus ring: 7.90:1 on card, 8.71:1 on background */

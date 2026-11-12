@@ -24,7 +24,7 @@
   "phase": "BUILD",
   "stories": {
     "1": { "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:25:00.000Z", "completedAt": "2026-11-12T08:50:00.000Z" },
-    "2": { "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
+    "2": { "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8", "status": "complete", "e2eStatus": "deferred", "startedAt": "2026-11-12T08:52:00.000Z", "completedAt": "2026-11-12T09:05:00.000Z" },
     "3": { "storyId": "f5c28803-3c5b-4e17-9794-e229892e1183", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null },
     "4": { "storyId": "4d983e0a-5a2e-4906-854c-9d0509468a80", "status": "pending", "e2eStatus": "deferred", "startedAt": null, "completedAt": null }
   },
