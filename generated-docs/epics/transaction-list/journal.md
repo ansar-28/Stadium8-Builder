@@ -6,3 +6,6 @@
 ## Story 2 — Filter and sort transactions
 - The Currency filter offers "Any" plus the currencies found in the loaded transactions, in alphabetical order, as agreed in the story's design choices.
 - Account number matching ignores upper/lower case and spaces at either end of the typed text. "Date to" counts the whole of the chosen day.
+
+## Story 3 — Page through transactions
+- Added page controls under the transactions list: Rows per page (5, 10, 20 or 50, starting at 20), Previous and Next buttons, and a "Page n of pages" label. They stay visible even when everything fits on one page. Changing a filter, the sort or the page size takes you back to page 1.

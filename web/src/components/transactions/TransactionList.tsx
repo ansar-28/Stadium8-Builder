@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
+import { ListPagination } from '@/components/layout/ListPagination';
 import {
   StatusChip,
   TypeChip,
@@ -29,6 +30,7 @@ import {
 import { useSignedInUser } from '@/contexts/SessionContext';
 import { getFileLogs, getTransactions } from '@/lib/api/endpoints';
 import { FILE_IMPORTER_ROLE_NAME, hasRole } from '@/lib/auth/roles';
+import { DEFAULT_PAGE_SIZE, FIRST_PAGE, slicePage } from '@/lib/pagination';
 import {
   toTransactionRows,
   type TransactionRow,
@@ -320,6 +322,8 @@ export function TransactionList() {
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [filters, setFilters] = useState<TransactionFilters>(NO_FILTERS);
   const [sort, setSort] = useState<TransactionSort>(DEFAULT_SORT);
+  const [requestedPageNumber, setRequestedPageNumber] = useState(FIRST_PAGE);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
 
   useEffect(() => {
     let isCurrentLoad = true;
@@ -373,20 +377,32 @@ export function TransactionList() {
     () => (loadedRows ? currencyOptionsOf(loadedRows) : []),
     [loadedRows],
   );
+  const currentPage = useMemo(
+    () => slicePage(filteredRows, requestedPageNumber, pageSize),
+    [filteredRows, requestedPageNumber, pageSize],
+  );
 
   function changeFilter(filterName: keyof TransactionFilters, value: string) {
     setFilters((currentFilters) => ({
       ...currentFilters,
       [filterName]: value,
     }));
+    setRequestedPageNumber(FIRST_PAGE);
   }
 
   function clearAllFilters() {
     setFilters(NO_FILTERS);
+    setRequestedPageNumber(FIRST_PAGE);
   }
 
   function changeSort(column: SortColumn) {
     setSort((currentSort) => nextSort(currentSort, column));
+    setRequestedPageNumber(FIRST_PAGE);
+  }
+
+  function changePageSize(nextPageSize: number) {
+    setPageSize(nextPageSize);
+    setRequestedPageNumber(FIRST_PAGE);
   }
 
   if (listLoad.status === 'loading') {
@@ -426,14 +442,23 @@ export function TransactionList() {
           />
         ) : (
           <TransactionTable
-            rows={filteredRows}
+            rows={currentPage.items}
             sort={sort}
             onSortChange={changeSort}
           />
         )}
-        <p className="text-sm text-muted-foreground tabular-nums">
-          Showing {filteredRows.length} of {totalCount} transactions
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground tabular-nums">
+            Showing {filteredRows.length} of {totalCount} transactions
+          </p>
+          <ListPagination
+            pageNumber={currentPage.pageNumber}
+            pageCount={currentPage.pageCount}
+            pageSize={pageSize}
+            onPageChange={setRequestedPageNumber}
+            onPageSizeChange={changePageSize}
+          />
+        </div>
       </div>
     </div>
   );
