@@ -8,7 +8,7 @@
 **Infrastructure only:** false
 
 ## Summary
-An Approver can tick several Pending transactions (or all Pending ones on the page) and approve or reject them together, giving one rejection reason that applies to every selected transaction. Approved and Rejected rows can't be selected and say why.
+An Approver can tick several Pending transactions (or all Pending ones on the page) and approve or reject them together, giving one rejection reason that applies to every selected transaction. Approved and Rejected rows can't be selected and say why. On each row the checkbox is the leftmost control, ahead of the green tick and red cross, all on one line.
 
 ## Acceptance criteria
 - AC-1 [vitest]: An Approver sees a "Select <Reference>" checkbox on every row and a "Select all pending transactions on this page" header checkbox; Approved and Rejected rows' checkboxes are disabled with the tooltip "<Status> — decision is final"

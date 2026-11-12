@@ -8,10 +8,11 @@
 **Infrastructure only:** false
 
 ## Summary
-An Approver can approve or reject a Pending transaction straight from its row on Transactions, using the green tick or red cross. A confirmation step names the transaction and says the decision is final, a rejection needs a reason, and a notice confirms the decision. A File Importer-only user sees no decision controls.
+An Approver can approve or reject a Pending transaction straight from its row on Transactions, using the green tick or red cross. The green tick and red cross icons must appear next to each other. From left to right, the checkbox, green tick (approve), red cross (reject), transaction reference, etc... all in one line. A confirmation step names the transaction and says the decision is final, a rejection needs a reason, and a notice confirms the decision. A File Importer-only user sees no decision controls.
 
 ## Acceptance criteria
 - AC-1 [vitest]: An Approver sees an unlabelled leading "Row actions" column with "Approve <Reference>" and "Reject <Reference>" buttons on Pending rows only; Approved and Rejected rows show no buttons, and no column is labelled "Decision"
+- AC-7 [vitest]: On each row the tick and the cross sit side by side on one line, in the order checkbox (when present), green tick (approve), red cross (reject), then the Reference and the rest of the row
 - AC-2 [vitest]: A user without the Approver role sees no row-action column and no approve or reject controls; the list is otherwise unchanged
 - AC-3 [vitest]: Clicking a row's tick or cross opens a dialog titled "Approve 1 selected transaction?" / "Reject 1 selected transaction?" that lists "<Reference> · <Description> · <Currency> <Amount>", shows "This decision is final." and starts with focus on Cancel
 - AC-4 [vitest]: Pressing Reject with a blank reason keeps the dialog open with "Enter a rejection reason to continue.", and typing in the reason clears the message
