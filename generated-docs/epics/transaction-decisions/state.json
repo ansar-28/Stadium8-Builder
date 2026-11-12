@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "epic": {
+    "epicId": "364b433f-6a98-4bff-adf5-c0d77b8dd3dc",
+    "slug": "transaction-decisions",
+    "name": "Approve and reject transactions",
+    "createdAt": "2026-11-12T09:27:33.796Z",
+    "dependsOn": [
+      "transaction-list"
+    ],
+    "introducesSharedSurface": false,
+    "unverifiedAssumptions": [
+      "Verify the right rows get the tick and cross: the app treats the backend's 'not yet decided' status as Pending (the API spec's example value is 'Imported', not 'Pending'). If the backend uses a different value, Pending rows may show no decision controls, or decided rows may still offer them.",
+      "Verify a decision is saved under your name: every approve or reject sends the signed-in user's display name as the person making the change. If the backend expects the username instead (or refuses names with spaces), every decision will fail with an error message.",
+      "Verify a decision sticks after you reload the page: the backend only confirms success without sending back the updated transaction, so the app updates the row itself. If the backend doesn't actually save the status or the rejection reason, the row will flip back to Pending, or lose its reason, after a reload."
+    ],
+    "manualTestResults": [],
+    "parkedDesignUpdate": false,
+    "designFingerprint": null,
+    "designDecisions": []
+  },
+  "phase": "READY-TO-BUILD",
+  "stories": {
+    "1": {
+      "storyId": "ee762a3d-a492-4b65-8deb-f295c25e2617",
+      "status": "pending",
+      "e2eStatus": "deferred",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "2": {
+      "storyId": "44a89f65-41a2-426b-96a3-ce66db447222",
+      "status": "pending",
+      "e2eStatus": "deferred",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "3": {
+      "storyId": "320d8150-bb39-4803-bd92-94a65600c02d",
+      "status": "pending",
+      "e2eStatus": "deferred",
+      "startedAt": null,
+      "completedAt": null
+    }
+  },
+  "halt": null,
+  "lastUpdated": "2026-11-12T09:32:16.860Z"
+}

@@ -119,3 +119,13 @@ Calls go through the Next.js proxy with the `/transactions-api` path prefix, per
 - **Where decision errors appear is not designed (R13):** the digest lists the failed-decision error state as undesigned. Confirm whether the server's message shows inside the dialog, as a persistent toast, or as a banner.
 - **"Notice naming the state" (R8) is translated thinly:** the design shows it as the disabled-checkbox tooltip "<Status> — decision is final" plus the absence of the icons. No other notice is designed. Confirm that this is enough.
 - **Approve and reject responses:** both calls return only `DefaultResponse`, not the updated transaction. After a successful decision, the app has to update the row locally or reload the list.
+
+---
+
+## Resolved at stories approval
+
+Resolved design choices (user approved the recommended answer for each):
+- Failed decision errors appear inside the confirmation dialog, which stays open so the Approver can retry.
+- Partial bulk failure: keep the successful rows, name the failed References with the server's message, leave only the failed ones selected.
+- Re-authentication (R14): rely on the live session; if it has expired the user is sent to sign in. No password prompt.
+- "Decision is final" notice: the design's version (no icons + disabled-checkbox tooltip) is enough.
