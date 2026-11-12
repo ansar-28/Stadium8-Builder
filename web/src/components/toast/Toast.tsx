@@ -4,6 +4,7 @@
  * Toast - one notification in the bottom-right notification area.
  * Every notification is a polite `status` with a close button; timed ones
  * fade out just before the provider removes them, errors stay until closed.
+ * Entry slides in at full opacity so the text never renders below contrast.
  */
 
 import { useEffect, useState } from 'react';
@@ -56,7 +57,7 @@ export function Toast({ toast, onDismiss }: ToastProps) {
       className={cn(
         'pointer-events-auto flex items-start gap-3 rounded-lg border border-l-4 border-border bg-popover p-4 text-popover-foreground shadow-lg',
         toast.variant === 'error' ? 'border-l-destructive' : 'border-l-primary',
-        'animate-in fade-in slide-in-from-right duration-300 transition-opacity',
+        'animate-in slide-in-from-right duration-300 transition-opacity',
         isFading && 'opacity-0',
         toast.onClick && 'cursor-pointer',
       )}

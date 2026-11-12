@@ -123,10 +123,16 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await expect(downloadButtons).toHaveCount(20);
     await expect(page.getByText('Showing 20 of 25 files')).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-025.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-025.csv',
+        exact: true,
+      }),
     ).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-005.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-005.csv',
+        exact: true,
+      }),
     ).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Previous' })).toBeDisabled();
 
@@ -140,10 +146,16 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await expect(downloadButtons).toHaveCount(5);
     await expect(page.getByText('Showing 5 of 25 files')).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-005.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-005.csv',
+        exact: true,
+      }),
     ).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-025.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-025.csv',
+        exact: true,
+      }),
     ).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Next' })).toBeDisabled();
 
@@ -158,18 +170,30 @@ test.describe('Epic file-upload-and-files, Story 1: Uploaded files list with dow
     await expect(downloadButtons).toHaveCount(5);
     await expect(page.getByText('Showing 5 of 25 files')).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-025.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-025.csv',
+        exact: true,
+      }),
     ).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-020.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-020.csv',
+        exact: true,
+      }),
     ).toHaveCount(0);
 
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-020.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-020.csv',
+        exact: true,
+      }),
     ).toBeVisible();
     await expect(
-      table.getByRole('cell', { name: 'transactions_batch-025.csv' }),
+      table.getByRole('cell', {
+        name: 'transactions_batch-025.csv',
+        exact: true,
+      }),
     ).toHaveCount(0);
     await expect(page.getByText('Showing 5 of 25 files')).toBeVisible();
   });

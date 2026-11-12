@@ -13,3 +13,8 @@
 - On the uploaded files list, a file the server returns without an id now shows a disabled Download button instead of requesting a file that doesn't exist.
 - Left as planned: exact seven-column header rule, banner plus notification on rejection, and the assumed file-setting values (on the check-first list).
 
+## Epic-end browser tests
+- Notifications now slide in without fading in. The fade made their text briefly too faint to pass the accessibility contrast check. They still fade out before they disappear.
+- The uploaded-files paging test looked for a file name loosely and also matched the row's Download button. The test now looks for the exact name; the screen was already correct.
+- Browser tests ran in Microsoft Edge because the one-time Chromium download was stuck.
+
