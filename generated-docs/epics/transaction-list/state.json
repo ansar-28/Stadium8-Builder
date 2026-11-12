@@ -23,30 +23,30 @@
     "designFingerprint": null,
     "designDecisions": []
   },
-  "phase": "EPIC-END",
+  "phase": "MANUAL-TEST",
   "stories": {
     "1": {
       "storyId": "01f4e7d8-3405-42ab-a84c-4b649a9e680d",
       "status": "complete",
-      "e2eStatus": "deferred",
+      "e2eStatus": "passed",
       "startedAt": "2026-11-12T09:45:00.000Z",
       "completedAt": "2026-11-12T12:59:42.690Z"
     },
     "2": {
       "storyId": "c7b3f818-10bb-4fca-aeac-46268d95b82c",
       "status": "complete",
-      "e2eStatus": "deferred",
+      "e2eStatus": "passed",
       "startedAt": "2026-11-12T13:00:49.149Z",
       "completedAt": "2026-11-12T13:05:32.918Z"
     },
     "3": {
       "storyId": "1917c460-5ad2-47a2-a087-bb40c539c8c5",
       "status": "complete",
-      "e2eStatus": "deferred",
+      "e2eStatus": "passed",
       "startedAt": "2026-11-12T13:05:32.918Z",
       "completedAt": "2026-11-12T13:08:04.727Z"
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T13:08:04.728Z"
+  "lastUpdated": "2026-11-12T13:37:51.064Z"
 }
