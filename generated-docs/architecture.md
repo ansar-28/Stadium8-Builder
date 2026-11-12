@@ -30,6 +30,11 @@
 | `TablePagination`, `pageOf`, `pageCountOf`, `PAGE_SIZE_OPTIONS`, `DEFAULT_PAGE_SIZE` | `web/src/components/data-table/TablePagination.tsx` | Client-side table footer: "Showing n of total <noun>", "Rows per page" select (5/10/20/50, default 20), "Previous" / "Page n of m" / "Next" (disabled at the ends) |
 | `Table` family, `Select` family (Shadcn) | `web/src/components/ui/table.tsx`, `web/src/components/ui/select.tsx` | Table primitives; Select on `@radix-ui/react-select` (name the trigger with `aria-labelledby`) |
 | `UploadedFiles` | `web/src/components/files/UploadedFiles.tsx` | Uploaded files screen: `GET /v1/file-logs?IsActive=Yes`, newest first, paginated, per-row "Download <file name>" with success toast / persistent error toast + "Try again"; "Upload a file" for File Importers |
+| `UploadTransactionFile` | `web/src/components/files/UploadTransactionFile.tsx` | Upload card: labelled .csv chooser, "Selected: <name>", "Upload file", layout check then `uploadFile` as octet-stream; `role="status"` outcome banner (green / red border) + error toast "The file <name> was rejected at upload." |
+| `FileImporterOnly` | `web/src/components/files/FileImporterOnly.tsx` | Renders children only for File Importers; others get a `role="status"` banner "You need the File Importer permission…" with a "Files" link |
+| `isSevenColumnTransactionFile`, `TRANSACTION_FILE_HEADER`, `TRANSACTION_FILE_LAYOUT_MESSAGE` | `web/src/lib/validation/transaction-file.ts` | .csv extension + exact seven-column header check, reading only the file's first 64 KB (non-blocking) |
+| `TRANSACTION_FILE_SETTING_ID`, `TRANSACTION_FILE_SETTING_NAME` | `web/src/lib/files/transaction-file-setting.ts` | File setting sent with every upload (assumed values; mocks re-export them) |
+| `Input`, `Label` (Shadcn) | `web/src/components/ui/input.tsx`, `web/src/components/ui/label.tsx` | Text/file input and its label (`htmlFor`) |
 | `Switch` (Shadcn) | `web/src/components/ui/switch.tsx` | Switch primitive; extra `thumbClassName` prop for restyling the thumb; resize with `data-[size=default]:h-*` / `w-*` (plain `h-*` / `w-*` lose to the size variant) |
 
 ## Conventions

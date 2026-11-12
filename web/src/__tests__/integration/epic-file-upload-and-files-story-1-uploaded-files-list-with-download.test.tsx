@@ -134,7 +134,8 @@ describe('Epic file-upload-and-files, Story 1: Uploaded files list with download
   // AC-1
   // Data-contract: full chain verified during manual checklist
   it('lists each uploaded file with its upload timestamp, newest first, and the file count', async () => {
-    const [newestFile, middleFile, oldestFile] = createFileLogList().FileLog;
+    const [newestFile, middleFile, oldestFile] =
+      createFileLogList().FileLog ?? [];
     respondToApiCalls(async (endpoint) => {
       if (endpoint.includes(FILE_LOGS_PATH)) {
         return createFileLogList([middleFile, oldestFile, newestFile]);
