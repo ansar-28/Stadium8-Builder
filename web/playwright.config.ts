@@ -19,9 +19,12 @@ export default defineConfig({
   reporter: isCI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL: `http://localhost:${port}`,
+    // Lets a machine drive an already-installed browser (e.g. msedge) instead of downloading Chromium.
+    channel: process.env.E2E_BROWSER_CHANNEL || undefined,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    // Recording video needs a separate ffmpeg download, which an installed-browser setup skips.
+    video: process.env.E2E_BROWSER_CHANNEL ? 'off' : 'retain-on-failure',
   },
   projects: [
     {

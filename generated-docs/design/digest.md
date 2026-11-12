@@ -13,7 +13,12 @@ A staff-facing transaction-approval tool: sign-in, a transaction list where Appr
 
 ## Your Decisions
 
-*Nothing yet — this fills in as you settle things while we build.*
+- **Theme — both light and dark, following the computer's setting by default, with a header switch to override** *(sign-in-and-app-shell, 2026-11-12)*
+  Overrides the prototype being dark only.
+- **Sign in — the password is hidden as typed (dots), with a show/hide button** *(sign-in-and-app-shell, 2026-11-12)*
+  Overrides the prototype's plain-text password field.
+- **Notifications — each has a close button; success messages fade after a few seconds, errors stay until closed** *(sign-in-and-app-shell, 2026-11-12)*
+  Overrides the prototype's 4.5-second auto-hide with no close button.
 
 ---
 

@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "epic": {
+    "epicId": "147c273c-a4e5-4d78-b5fc-623fa767a486",
+    "slug": "sign-in-and-app-shell",
+    "name": "Sign-in and app frame",
+    "createdAt": "2026-11-12T07:52:25.601Z",
+    "dependsOn": [],
+    "introducesSharedSurface": true,
+    "unverifiedAssumptions": [
+      "Verify your role chips and the Upload item: the app expects the backend to name roles exactly \"File Importer\" and \"Approver\" (the spec's example shows \"Viewer\"). If the names differ, you'll see unexpected chips and File Importers won't see Upload.",
+      "Verify your name in the header: the app shows your first name followed by your last name from your account details. If the backend leaves those empty or keeps the name elsewhere, the header will show a blank or wrong name.",
+      "Verify the session timeouts match the server: the app signs you out after 15 minutes idle and 8 hours total, but the server's own session may expire sooner. If it does, you'll be bounced to Sign in without the warning appearing first.",
+      "If sign-in fails because the server is down or errors (not wrong credentials), the screen says \"Sign-in is unavailable right now. Please try again in a moment.\" The design has no wording for this; confirm it's OK.",
+      "In dark mode, error text uses the prototype's lighter red (#f87171) because the design system's dark error red is too faint to read as text on the dark card; confirm it's OK.",
+      "The backend's session cookie must be named \"session\" with Path=/; check that a real sign-in lands you on Transactions instead of bouncing back to Sign in.",
+      "The sign-in username is sent with surrounding spaces trimmed; the password is sent exactly as typed.",
+      "When sign-out fails, the error notification reads \"Sign-out failed\" with \"You are still signed in. Please try signing out again.\" The brief gives no wording; confirm it's what you want.",
+      "The timeout warning wording (\"You're about to be signed out\", with 60 seconds to stay signed in) is not in the prototype; confirm it's OK.",
+      "If the server rejects the sign-out when a timeout ends your session, the app still sends you to Sign in, so the server session might stay valid until it expires there. The 15-minute and 8-hour limits are enforced only in the browser; confirm the backend's session expires on the same schedule.",
+      "When the app can't reach the server to check your session, the screen reads \"We couldn't reach the server\" with a Retry button; confirm the wording is OK."
+    ],
+    "manualTestResults": [
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "Your role chips and the Upload item: the app expects the backend to name roles exactly \"File Importer\" and \"Approver\". If the names differ you'll see unexpected chips and File Importers won't see Upload.",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "Your name in the header: the app shows your first name followed by your last name. If the backend leaves those empty, the header will show a blank or wrong name.",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "Session timing: the app signs you out after 15 minutes idle and 8 hours total, but the server's own session may expire sooner, bouncing you to Sign in without a warning.",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "A real sign-in lands you on Transactions rather than bouncing back to Sign in (the app relies on the backend's cookie being named \"session\" with Path=/).",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "Wording the design didn't provide: \"Sign-in is unavailable right now. Please try again in a moment.\", \"Sign-out failed\", \"You're about to be signed out\", and \"We couldn't reach the server\" with a Retry button. Check you're happy with each.",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "assumption",
+        "story": null,
+        "test": "In dark mode, error text uses a lighter red than the design system's dark red, which was too faint to read. Check it looks right to you.",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "Open the app while signed out → you land on the Sign in page, not a welcome page",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "While signed out, type the Files screen's address (localhost:3000/files) into the address bar → you're sent to Sign in",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "Click Sign in with the Password left blank → you see \"Username and password are required.\"",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "Sign in with a wrong password → you see \"Sign-in failed. Check your details and try again.\"; start typing in either field and the message disappears",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "The Password field shows dots, and its Show button reveals what you typed",
+        "passed": true,
+        "comment": "Duplicate view-password icon inside the field; remove it"
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "Tab through the Sign in page and press Enter on the button → you can sign in without the mouse",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign in and protected entry to the app",
+        "test": "Sign in with your own username and password → you see a loading placeholder, then the Transactions screen",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "The header shows your name, a \"File Importer\" chip, and Transactions, Files, Upload and Export",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "Click Files → the address changes to the Files screen and Files is highlighted; press the browser Back button → you're back on Transactions",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "Tab through the header → every item can be reached and opened with the keyboard, with a visible focus outline",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "Change your computer between light and dark (before touching the switch) → the app follows it",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "Use the header switch to pick dark, then refresh → it stays dark; pick light → it changes back straight away",
+        "passed": true,
+        "comment": "Theme switch toggle sits outside the icon bounds in dark mode"
+      },
+      {
+        "kind": "story",
+        "story": "Sign out",
+        "test": "Click Sign out → the button briefly reads \"Signing out…\", then you're on Sign in with the fields empty",
+        "passed": true,
+        "comment": "Fields are not empty when you sign out"
+      },
+      {
+        "kind": "story",
+        "story": "Sign out",
+        "test": "Sign in, sign out, then press the browser Back button → you're sent to Sign in, not back into the app",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Sign out",
+        "test": "After signing out, type the Transactions screen's address → you're sent to Sign in",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Idle and 8-hour session timeouts",
+        "test": "Sign in and leave the app untouched for 14 minutes → a warning says you'll be signed out soon",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Idle and 8-hour session timeouts",
+        "test": "Click \"Stay signed in\" → the warning closes and you stay on the same screen",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Idle and 8-hour session timeouts",
+        "test": "Leave the warning unanswered for 60 seconds → you're returned to Sign in",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "Idle and 8-hour session timeouts",
+        "test": "When the warning appears, press Tab and Enter → you can answer it without the mouse",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "Sign in as an Approver only → you see an \"Approver\" chip and no Upload item",
+        "passed": true,
+        "comment": null
+      },
+      {
+        "kind": "story",
+        "story": "App frame with role-aware navigation",
+        "test": "Sign in as a user with both roles (if you have one) → you see both chips and the Upload item",
+        "passed": true,
+        "comment": null
+      }
+    ],
+    "parkedDesignUpdate": false,
+    "designFingerprint": null,
+    "designDecisions": []
+  },
+  "phase": "COMPLETE-ON-BRANCH",
+  "stories": {
+    "1": {
+      "storyId": "cd092d74-bf33-4c9b-bedc-e74c2a8893e1",
+      "status": "complete",
+      "e2eStatus": "passed-after-fix",
+      "startedAt": "2026-11-12T08:25:00.000Z",
+      "completedAt": "2026-11-12T08:50:00.000Z"
+    },
+    "2": {
+      "storyId": "19e9afd0-4f75-4916-b189-f958c77c40b8",
+      "status": "complete",
+      "e2eStatus": "passed",
+      "startedAt": "2026-11-12T08:52:00.000Z",
+      "completedAt": "2026-11-12T09:05:00.000Z"
+    },
+    "3": {
+      "storyId": "f5c28803-3c5b-4e17-9794-e229892e1183",
+      "status": "complete",
+      "e2eStatus": "passed",
+      "startedAt": "2026-11-12T09:07:00.000Z",
+      "completedAt": "2026-11-12T09:15:00.000Z"
+    },
+    "4": {
+      "storyId": "4d983e0a-5a2e-4906-854c-9d0509468a80",
+      "status": "complete",
+      "e2eStatus": "passed",
+      "startedAt": "2026-11-12T09:17:00.000Z",
+      "completedAt": "2026-11-12T09:30:00.000Z"
+    }
+  },
+  "halt": null,
+  "lastUpdated": "2026-11-12T11:50:28.522Z"
+}

@@ -38,10 +38,10 @@ Session state is held only in the HttpOnly `session` cookie — the frontend nev
 - **R2:** Invalid credentials show a generic message ("Sign-in failed. Check your details and try again.") that does not reveal which field was incorrect; repeated failures show the same message and reveal no lockout state.
 - **R3:** Username and password are both required; a missing entry (blank after trimming) shows "Username and password are required."
 - **R4:** A signed-in user can sign out; the application ends the session and waits for the sign-out response before leaving the screen (the button reads "Signing out…" meanwhile).
-- **R5:** When a screen loads, the system verifies the session is still valid; every screen requires a valid session, and an invalid session takes the user to sign-in.
+- **R5:** When a screen loads, the system verifies the session is still valid; every screen requires a valid session, and an invalid session (userinfo answers 401/403) takes the user to sign-in. When the check cannot reach the server (network error, server error), no signed-in content shows and the user is offered a retry instead of being signed out.
 - **R6:** After sign-in the application opens with the actions the user's roles allow, inside a persistent frame that shows the product name, navigation, the user's name and role(s), sign-out and in-app notifications.
 - **R7:** Actions the signed-in user's roles do not allow are hidden: no approve/reject without the Approver role, and no upload (including the "Upload" navigation item) without the File Importer role.
-- **R8:** A session left idle for 15 minutes ends, with a warning shown 60 seconds before it does.
+- **R8:** A session left idle for 15 minutes ends, with a warning shown 60 seconds before it does. Idle means no activity in any open tab of the app, since all tabs share one session.
 - **R9:** A session ends 8 hours after sign-in regardless of activity.
 - **R10:** All screens conform to WCAG 2.2 AA and can be operated by keyboard alone.
 - **R11:** The app opens quickly: time to interactive ≤ 3.0 s (p95), initial bundle ≤ 300 KB gzipped, and meaningful content ≤ 1.5 s after sign-in (p95).

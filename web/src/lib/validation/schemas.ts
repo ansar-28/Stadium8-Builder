@@ -43,6 +43,23 @@ export const simplePasswordSchema = z
   .string()
   .min(8, 'Password must be at least 8 characters');
 
+export const SIGN_IN_REQUIRED_MESSAGE = 'Username and password are required.';
+
+const requiredAfterTrim = z
+  .string()
+  .refine((value) => value.trim().length > 0, SIGN_IN_REQUIRED_MESSAGE);
+
+/**
+ * Sign-in form: both entries are required (blank after trimming counts as missing).
+ * Values are not transformed — the password is sent exactly as typed.
+ */
+export const signInSchema = z.object({
+  username: requiredAfterTrim,
+  password: requiredAfterTrim,
+});
+
+export type SignInValues = z.infer<typeof signInSchema>;
+
 /**
  * User ID validation schema
  * Validates MongoDB ObjectId or UUID format

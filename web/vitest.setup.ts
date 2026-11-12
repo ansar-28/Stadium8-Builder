@@ -123,6 +123,48 @@ if (typeof globalThis.ResizeObserver === 'undefined') {
     ResizeObserverStub as unknown as typeof ResizeObserver;
 }
 
+// Node 25+ ships its own experimental global `localStorage` / `sessionStorage`, which
+// is undefined unless Node runs with --localstorage-file. That global shadows jsdom's
+// Web Storage, so `window.localStorage` is undefined in tests. When storage is missing,
+// install an in-memory Storage with the standard API — honest for jsdom, which never
+// persists storage across runs anyway.
+class MemoryStorage implements Storage {
+  private readonly entries = new Map<string, string>();
+
+  get length(): number {
+    return this.entries.size;
+  }
+
+  clear(): void {
+    this.entries.clear();
+  }
+
+  getItem(key: string): string | null {
+    return this.entries.get(String(key)) ?? null;
+  }
+
+  key(index: number): string | null {
+    return [...this.entries.keys()][index] ?? null;
+  }
+
+  removeItem(key: string): void {
+    this.entries.delete(String(key));
+  }
+
+  setItem(key: string, value: string): void {
+    this.entries.set(String(key), String(value));
+  }
+}
+
+for (const storageName of ['localStorage', 'sessionStorage'] as const) {
+  if (!globalThis[storageName]) {
+    Object.defineProperty(globalThis, storageName, {
+      configurable: true,
+      value: new MemoryStorage(),
+    });
+  }
+}
+
 if (typeof globalThis.IntersectionObserver === 'undefined') {
   class IntersectionObserverStub {
     readonly root = null;
