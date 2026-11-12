@@ -15,6 +15,7 @@
   --color-destructive-text: var(--destructive-text);
   --color-success-text: var(--success-text);
   --color-warning-text: var(--warning-text);
+  --color-info-text: var(--info-text);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -73,6 +74,7 @@
   --destructive-text: #b91c1c; /* error text: 5.86:1 on card, 6.47:1 on background */
   --success-text: #15803d; /* design-system success: 5.01:1 on background */
   --warning-text: #b45309; /* design-system warning: 5.01:1 on background */
+  --info-text: #0369a1; /* design-system info: 5.93:1 on background */
   --brand: #004b8d; /* identity only: header / brand strip */
   --brand-foreground: #f6f9fc; /* 8.31:1 */
   --brand-muted-foreground: #cfe0f2; /* header nav inactive: 6.52:1 on brand */
@@ -102,6 +104,7 @@
   --destructive-text: #f87171; /* prototype error text: 6.25:1 on card, 6.89:1 on background */
   --success-text: #4ade80; /* prototype ok text: bright tint, > 9:1 on card */
   --warning-text: #fbbf24; /* prototype warn text: bright tint, > 9:1 on card */
+  --info-text: #7db4ea; /* prototype info text: 7.90:1 on card, 8.71:1 on background */
   --brand: #004b8d; /* identity only: header / brand strip */
   --brand-foreground: #f6f9fc; /* 8.31:1 */
   --brand-muted-foreground: #cfe0f2; /* header nav inactive: 6.52:1 on brand */

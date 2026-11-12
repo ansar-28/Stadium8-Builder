@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { PageHeader } from '@/components/layout/PageHeader';
+import { TransactionList } from '@/components/transactions/TransactionList';
 
 export const metadata: Metadata = {
   title: 'Transactions · Transaction Management',
@@ -8,9 +9,12 @@ export const metadata: Metadata = {
 
 export default function TransactionsPage() {
   return (
-    <PageHeader
-      title="Transactions"
-      description="Transaction data is read-only. Decisions are final."
-    />
+    <div className="flex flex-col gap-6">
+      <PageHeader
+        title="Transactions"
+        description="Transaction data is read-only. Decisions are final."
+      />
+      <TransactionList />
+    </div>
   );
 }
