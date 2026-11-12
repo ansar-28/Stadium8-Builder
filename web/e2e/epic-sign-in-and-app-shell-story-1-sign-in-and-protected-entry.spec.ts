@@ -195,7 +195,8 @@ test.describe('Epic sign-in-and-app-shell, Story 1: Sign in and protected entry'
 
     // Error state scan (blank submit).
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page.getByRole('alert')).toHaveText(
+    // Scoped to main: Next.js renders its own empty role="alert" route announcer outside it.
+    await expect(page.getByRole('main').getByRole('alert')).toHaveText(
       'Username and password are required.',
     );
     const errorScan = await new AxeBuilder({ page })
