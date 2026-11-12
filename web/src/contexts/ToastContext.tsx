@@ -83,9 +83,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         message: options.message,
         // Errors stay until the user closes them; everything else fades after a few seconds.
         duration:
-          options.variant === 'error'
-            ? 0
-            : (options.duration ?? TOAST_DEFAULTS.DURATION),
+          options.duration ??
+          (options.variant === 'error' ? 0 : TOAST_DEFAULTS.DURATION),
         dismissible: options.dismissible ?? TOAST_DEFAULTS.DISMISSIBLE,
         onClick: options.onClick,
       };
