@@ -150,17 +150,3 @@ export function toTransactionRows(
     };
   });
 }
-
-/** Newest Date first; rows with an unreadable date go last. */
-export function sortByDateDescending(
-  rows: readonly TransactionRow[],
-): TransactionRow[] {
-  return [...rows].sort((first, second) => {
-    const firstIsKnown = Number.isFinite(first.transactionTimestamp);
-    const secondIsKnown = Number.isFinite(second.transactionTimestamp);
-    if (firstIsKnown && secondIsKnown) {
-      return second.transactionTimestamp - first.transactionTimestamp;
-    }
-    return Number(secondIsKnown) - Number(firstIsKnown);
-  });
-}

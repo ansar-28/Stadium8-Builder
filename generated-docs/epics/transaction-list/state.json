@@ -13,7 +13,9 @@
       "Verify the Status chips: the app assumes the backend reports a not-yet-decided transaction as \"Imported\" (shown as Pending) and decided ones as Approved / Rejected. If it uses a different word, undecided transactions may show the wrong chip and no days pending.",
       "Verify the Type chips: the app assumes the backend returns each transaction's type as Credit/Debit (or C/D). If it returns something else, the Type chip may be blank or wrong and the Transaction type filter won't match anything.",
       "Verify Days pending: the app counts from the upload date of the file each transaction came from. If the backend's file date is the processing date rather than the upload date, or a transaction's file isn't in the active file list, days pending may be off or show \"—\" for a pending transaction.",
-      "Check the failed-load wording: a failed load shows a card titled \"Transactions couldn't be loaded\" with the server's message and a Retry button. Confirm it reads well."
+      "Check the failed-load wording: a failed load shows a card titled \"Transactions couldn't be loaded\" with the server's message and a Retry button. Confirm it reads well.",
+      "Check the no-match filter chip wording: chips show the field label and value (e.g. \"Account number: 1001-2034\", \"Amount min: 20000\"); the design used shorter wording. Is that OK?",
+      "Check sorting by Days pending: Approved and Rejected rows (shown as \"—\") sit at the bottom in both directions. Is that the order you expect?"
     ],
     "manualTestResults": [],
     "parkedDesignUpdate": false,
@@ -31,19 +33,19 @@
     },
     "2": {
       "storyId": "c7b3f818-10bb-4fca-aeac-46268d95b82c",
-      "status": "pending",
+      "status": "complete",
       "e2eStatus": "deferred",
-      "startedAt": null,
-      "completedAt": null
+      "startedAt": "2026-11-12T13:00:49.149Z",
+      "completedAt": "2026-11-12T13:05:32.918Z"
     },
     "3": {
       "storyId": "1917c460-5ad2-47a2-a087-bb40c539c8c5",
-      "status": "pending",
+      "status": "in-progress",
       "e2eStatus": "deferred",
-      "startedAt": null,
+      "startedAt": "2026-11-12T13:05:32.918Z",
       "completedAt": null
     }
   },
   "halt": null,
-  "lastUpdated": "2026-11-12T12:59:42.691Z"
+  "lastUpdated": "2026-11-12T13:05:32.918Z"
 }

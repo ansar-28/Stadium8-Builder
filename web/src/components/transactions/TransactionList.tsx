@@ -7,6 +7,8 @@ import {
   StatusChip,
   TypeChip,
 } from '@/components/transactions/TransactionChips';
+import { TransactionFilterCard } from '@/components/transactions/TransactionFilterCard';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -28,10 +30,23 @@ import { useSignedInUser } from '@/contexts/SessionContext';
 import { getFileLogs, getTransactions } from '@/lib/api/endpoints';
 import { FILE_IMPORTER_ROLE_NAME, hasRole } from '@/lib/auth/roles';
 import {
-  sortByDateDescending,
   toTransactionRows,
   type TransactionRow,
 } from '@/lib/transactions/transaction-rows';
+import {
+  activeFilterChips,
+  currencyOptionsOf,
+  DEFAULT_SORT,
+  filterRows,
+  nextSort,
+  NO_FILTERS,
+  sortRows,
+  type ActiveFilterChip,
+  type SortColumn,
+  type SortDirection,
+  type TransactionFilters,
+  type TransactionSort,
+} from '@/lib/transactions/transaction-view';
 import { cn } from '@/lib/utils';
 import type { APIError } from '@/types/api';
 
@@ -138,40 +153,114 @@ function NoTransactionsYet({ canUpload }: { canUpload: boolean }) {
   );
 }
 
-const COLUMN_HEADER_CLASS_NAME =
-  'h-11 px-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase';
+function NoMatchingTransactions({
+  chips,
+  onClearAll,
+}: {
+  chips: ActiveFilterChip[];
+  onClearAll: () => void;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-lg border bg-background px-6 py-12 text-center dark:bg-card">
+      <h2 className="text-xl">No transactions match these filters</h2>
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <span className="text-sm text-muted-foreground">Active filters:</span>
+        <ul
+          aria-label="Active filters"
+          className="flex flex-wrap justify-center gap-2"
+        >
+          {chips.map((chip) => (
+            <li key={chip.filterName}>
+              <Badge
+                variant="outline"
+                className="bg-card px-3 py-1 text-xs font-semibold tabular-nums"
+              >
+                {chip.text}
+              </Badge>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Button
+        type="button"
+        onClick={onClearAll}
+        className="min-h-11 font-semibold hover:bg-primary-hover"
+      >
+        Clear all
+      </Button>
+    </div>
+  );
+}
+
+const COLUMN_HEADER_CLASS_NAME = 'h-11 px-3';
+const SORT_BUTTON_CLASS_NAME =
+  'h-11 rounded-md px-0 text-xs font-semibold tracking-wide text-muted-foreground uppercase hover:bg-transparent hover:text-foreground';
 const NUMERIC_CELL_CLASS_NAME = 'tabular-nums';
 
-function TransactionTable({ rows }: { rows: TransactionRow[] }) {
+interface ColumnDefinition {
+  column: SortColumn;
+  title: string;
+  isRightAligned?: boolean;
+}
+
+const COLUMNS: ColumnDefinition[] = [
+  { column: 'reference', title: 'Reference' },
+  { column: 'transactionDate', title: 'Date' },
+  { column: 'accountNumber', title: 'Account number' },
+  { column: 'description', title: 'Description' },
+  { column: 'amount', title: 'Amount', isRightAligned: true },
+  { column: 'transactionType', title: 'Type' },
+  { column: 'currency', title: 'Currency' },
+  { column: 'status', title: 'Status' },
+  { column: 'daysPending', title: 'Days pending' },
+];
+
+const SORT_DIRECTION_MARKERS: Record<SortDirection, string> = {
+  ascending: ' ▲',
+  descending: ' ▼',
+};
+
+function TransactionTable({
+  rows,
+  sort,
+  onSortChange,
+}: {
+  rows: TransactionRow[];
+  sort: TransactionSort;
+  onSortChange: (column: SortColumn) => void;
+}) {
   return (
     <div className="rounded-lg border bg-background dark:bg-card">
       <Table aria-label="Transactions">
         <TableHeader className="bg-card dark:bg-secondary/30">
           <TableRow className="hover:bg-transparent">
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>
-              Reference
-            </TableHead>
-            <TableHead
-              className={COLUMN_HEADER_CLASS_NAME}
-              aria-sort="descending"
-            >
-              Date
-            </TableHead>
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>
-              Account number
-            </TableHead>
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>
-              Description
-            </TableHead>
-            <TableHead className={cn(COLUMN_HEADER_CLASS_NAME, 'text-right')}>
-              Amount
-            </TableHead>
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>Type</TableHead>
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>Currency</TableHead>
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>Status</TableHead>
-            <TableHead className={COLUMN_HEADER_CLASS_NAME}>
-              Days pending
-            </TableHead>
+            {COLUMNS.map(({ column, title, isRightAligned }) => {
+              const isActive = sort.column === column;
+              return (
+                <TableHead
+                  key={column}
+                  aria-sort={isActive ? sort.direction : undefined}
+                  className={cn(
+                    COLUMN_HEADER_CLASS_NAME,
+                    isRightAligned && 'text-right',
+                  )}
+                >
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => onSortChange(column)}
+                    className={SORT_BUTTON_CLASS_NAME}
+                  >
+                    {title}
+                    {isActive && (
+                      <span aria-hidden="true">
+                        {SORT_DIRECTION_MARKERS[sort.direction]}
+                      </span>
+                    )}
+                  </Button>
+                </TableHead>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -229,6 +318,8 @@ export function TransactionList() {
   const [listLoad, setListLoad] = useState<ListLoad>({ status: 'loading' });
   const [isStillLoading, setIsStillLoading] = useState(false);
   const [loadAttempt, setLoadAttempt] = useState(0);
+  const [filters, setFilters] = useState<TransactionFilters>(NO_FILTERS);
+  const [sort, setSort] = useState<TransactionSort>(DEFAULT_SORT);
 
   useEffect(() => {
     let isCurrentLoad = true;
@@ -271,9 +362,32 @@ export function TransactionList() {
 
   const loadedRows = listLoad.status === 'loaded' ? listLoad.rows : null;
   const sortedRows = useMemo(
-    () => (loadedRows ? sortByDateDescending(loadedRows) : []),
+    () => (loadedRows ? sortRows(loadedRows, sort) : []),
+    [loadedRows, sort],
+  );
+  const filteredRows = useMemo(
+    () => filterRows(sortedRows, filters),
+    [sortedRows, filters],
+  );
+  const currencyOptions = useMemo(
+    () => (loadedRows ? currencyOptionsOf(loadedRows) : []),
     [loadedRows],
   );
+
+  function changeFilter(filterName: keyof TransactionFilters, value: string) {
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      [filterName]: value,
+    }));
+  }
+
+  function clearAllFilters() {
+    setFilters(NO_FILTERS);
+  }
+
+  function changeSort(column: SortColumn) {
+    setSort((currentSort) => nextSort(currentSort, column));
+  }
 
   if (listLoad.status === 'loading') {
     return <LoadingTransactions isStillLoading={isStillLoading} />;
@@ -297,11 +411,30 @@ export function TransactionList() {
   const totalCount = listLoad.rows.length;
 
   return (
-    <div className="flex flex-col gap-3">
-      <TransactionTable rows={sortedRows} />
-      <p className="text-sm text-muted-foreground tabular-nums">
-        Showing {sortedRows.length} of {totalCount} transactions
-      </p>
+    <div className="flex flex-col gap-4">
+      <TransactionFilterCard
+        filters={filters}
+        currencyOptions={currencyOptions}
+        onFilterChange={changeFilter}
+        onClearAll={clearAllFilters}
+      />
+      <div className="flex flex-col gap-3">
+        {filteredRows.length === 0 ? (
+          <NoMatchingTransactions
+            chips={activeFilterChips(filters)}
+            onClearAll={clearAllFilters}
+          />
+        ) : (
+          <TransactionTable
+            rows={filteredRows}
+            sort={sort}
+            onSortChange={changeSort}
+          />
+        )}
+        <p className="text-sm text-muted-foreground tabular-nums">
+          Showing {filteredRows.length} of {totalCount} transactions
+        </p>
+      </div>
     </div>
   );
 }
