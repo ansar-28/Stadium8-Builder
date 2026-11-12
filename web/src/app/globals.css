@@ -122,6 +122,12 @@
   h3 {
     @apply font-light;
   }
+  /* Edge draws its own reveal (eye) button inside password fields; the app supplies an
+     accessible Show password button instead, so the browser's duplicate is hidden. */
+  input[type='password']::-ms-reveal,
+  input[type='password']::-ms-clear {
+    display: none;
+  }
 }
 
 /* Animation utilities for modals and toasts (preserved from stadium-8) */

@@ -25,7 +25,7 @@ export function ThemeSwitch() {
         onCheckedChange={(checked) =>
           choosePreference(checked ? 'dark' : 'light')
         }
-        className="h-6 w-11 border-2 border-brand-foreground shadow-none focus-visible:border-brand-foreground focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-foreground data-[state=checked]:bg-brand-foreground data-[state=unchecked]:bg-transparent dark:data-[state=unchecked]:bg-transparent"
+        className="border-2 data-[size=default]:h-6 data-[size=default]:w-11 border-brand-foreground shadow-none focus-visible:border-brand-foreground focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-foreground data-[state=checked]:bg-brand-foreground data-[state=unchecked]:bg-transparent dark:data-[state=unchecked]:bg-transparent"
         thumbClassName="bg-brand-foreground data-[state=checked]:translate-x-[22px] data-[state=checked]:bg-brand data-[state=unchecked]:translate-x-[2px] dark:data-[state=checked]:bg-brand dark:data-[state=unchecked]:bg-brand-foreground"
       />
     </div>

@@ -19,13 +19,13 @@ Staff choose "Sign out" in the header; the button reads "Signing out…" until t
 ## Acceptance criteria
 
 - **AC-1** (vitest): While sign-out is in progress the button reads "Signing out…" and cannot be pressed again
-- **AC-2** (playwright): When sign-out completes the user is on Sign in with both fields empty
+- **AC-2** (playwright): When sign-out completes the user is on Sign in with both fields empty. The app keeps nothing the user typed; a password saved in the user's own browser may still be filled in by the browser's autofill, which is left as is (user decision, 2026-11-12) to keep accessibility and password-manager support.
 - **AC-3** (playwright): After signing out, pressing the browser Back button returns the user to Sign in rather than the previously viewed screen
 - **AC-4** (vitest): If sign-out fails, the user sees an error message and can try signing out again
 
 ## Manual test checklist
 
-- Click Sign out → the button briefly reads "Signing out…", then you're on Sign in with the fields empty
+- Click Sign out → the button briefly reads "Signing out…", then you're on Sign in with the fields empty (in a private window; a normal window may show a password your browser saved)
 - Sign in, sign out, then press the browser Back button → you're sent to Sign in, not back into the app
 - After signing out, type the Transactions screen's address → you're sent to Sign in
 

@@ -8,8 +8,11 @@
 - The startup script that picks light or dark mode no longer uses the HTML-injection route the security check flags. It is now written straight into the page as plain script text, so the right colours still show from the first frame and the security check passes.
 - If the app can't reach the server to check your session (network drop, server error), you now see "We couldn't reach the server" with a Retry button instead of being sent to Sign in. Only a session the server actually rejects sends you to Sign in.
 
+- Edge's own eye icon inside the password field is now hidden, so only the app's Show password button appears.
+
 ## Story 2: App frame with role-aware navigation
 
+- The Dark mode switch now keeps its knob inside the track when dark mode is on; the track was being drawn smaller than intended.
 - Every signed-in screen now sits under the brand-blue header. It shows "Transaction Management", the Transactions / Files / Upload / Export navigation, your name and a chip for each role. Upload appears only for File Importers, and the screen you're on is highlighted and shown in the address.
 - Files, Upload and Export now have their own protected screens, each showing just its title and description for now. Their content comes in later epics.
 - A "Dark mode" switch in the header lets you pick light or dark, and the browser remembers your pick. Until you choose, the app follows your computer's setting, including if you change it while the app is open.
@@ -19,6 +22,7 @@
 
 - The header now has a working Sign out button. It reads "Signing out…" and can't be pressed again until the sign-out finishes, then you're back on Sign in with empty fields. Pressing Back afterwards re-checks your session and returns you to Sign in.
 - If sign-out fails, an error notification says "Sign-out failed" and stays until you close it. The button becomes available again so you can retry.
+- After sign-out the app keeps nothing you typed, but your browser may still fill in a password it saved for this site. We left that autofill as is, to keep accessibility and password-manager support (your decision after manual testing).
 
 ## Story 4: Idle and 8-hour session timeouts
 
