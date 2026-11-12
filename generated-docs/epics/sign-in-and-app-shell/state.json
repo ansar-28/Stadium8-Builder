@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "epic": {
+    "epicId": "147c273c-a4e5-4d78-b5fc-623fa767a486",
+    "slug": "sign-in-and-app-shell",
+    "name": "Sign-in and app frame",
+    "createdAt": "2026-11-12T07:52:25.601Z",
+    "dependsOn": [],
+    "introducesSharedSurface": false,
+    "unverifiedAssumptions": [],
+    "manualTestResults": [],
+    "parkedDesignUpdate": false,
+    "designFingerprint": null,
+    "designDecisions": []
+  },
+  "phase": "PLAN",
+  "stories": {},
+  "halt": null,
+  "lastUpdated": "2026-11-12T07:52:25.601Z"
+}
