@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "epic": {
+    "epicId": "d851e0df-61f4-4143-ace9-0ca485c898ed",
+    "slug": "file-upload-and-files",
+    "name": "Upload and uploaded files",
+    "createdAt": "2026-11-12T09:26:31.375Z",
+    "dependsOn": [
+      "sign-in-and-app-shell"
+    ],
+    "introducesSharedSurface": false,
+    "unverifiedAssumptions": [
+      "Verify an uploaded file is treated as a transaction file: the app sends one fixed file setting with every upload, and the brief does not yet say which setting identifies transaction files. If the wrong setting is used, the upload may be refused or the file may never show its transactions.",
+      "Verify the Files list shows only files that uploaded successfully: the app asks the backend for active files only and assumes that means successfully uploaded. If the backend also returns failed or in-progress files that way, you will see files in the list that should not be there.",
+      "Verify the newest file is at the top: the app assumes each file's upload timestamp is a real date-and-time it can sort by. If the backend sends that value in a different format, the list order or the timestamps shown may be wrong."
+    ],
+    "manualTestResults": [],
+    "parkedDesignUpdate": false,
+    "designFingerprint": null,
+    "designDecisions": []
+  },
+  "phase": "READY-TO-BUILD",
+  "stories": {
+    "1": {
+      "storyId": "0e898163-27c3-42da-bf09-40e754bb57b1",
+      "status": "pending",
+      "e2eStatus": "deferred",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "2": {
+      "storyId": "b3b8bf0a-cd34-4edf-b4fc-42916c4e7509",
+      "status": "pending",
+      "e2eStatus": "deferred",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "3": {
+      "storyId": "09ff3c54-af18-4e0f-b8f8-b33480291254",
+      "status": "pending",
+      "e2eStatus": "deferred",
+      "startedAt": null,
+      "completedAt": null
+    }
+  },
+  "halt": null,
+  "lastUpdated": "2026-11-12T09:31:56.747Z"
+}
